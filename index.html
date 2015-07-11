@@ -22,22 +22,110 @@
 				<div class="row"></div>
 				<div class="row">
 					<p>
-						<button class="btn btn-primary">Calculate Simplex</button>
+						<button id="add_column_btn" class="btn btn-primary btn-block">Add column</button>
+					</p>
+				</div>
+				<div class="row">
+					<p>
+						<button id="add_line_btn" class="btn btn-primary btn-block">Add line</button>
+					</p>
+				</div>
+				<div class="row">
+					<p>
+						<button id="move_to_dual_btn" class="btn btn-primary btn-block">Move to dual</button>
+					</p>
+				</div>
+				<div class="row">
+					<p>
+						<button id="calculate_simplex_btn" class="btn btn-primary btn-block">Calculate Simplex</button>
 					</p>
 				</div>
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-9 col-md-offset-1">
 				<div class="row">
 					<div class="page-header">
-						<h3>PPL</h3>
+						<h3>Linear Programming Problem</h3>
 					</div>
 				</div>
-				<div class="row"></div>
+				<div class="row bg-primary">
+					<div class="col-md-12"><h4>Function</h4></div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<table class="table">
+							<tr>
+								<th>Type</th>
+							</tr>
+							<tr>
+								<td>
+									<select id="kind_of_function" class="form-control">
+										<option value="min">min</option>
+										<option value="max">max</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-md-10">
+						<table class="table">
+							<tr id="function_head">
+								<th>c1</th>
+								<th>c2</th>
+							</tr>
+							<tr id="function_variables">
+								<td><input id="c1" value="1" type="number" class="form-control"/></td>
+								<td><input id="c2" value="1" type="number" class="form-control"/></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="row bg-primary">
+					<div class="col-md-12"><h4>Constraints</h4></div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table">
+							<tr id="constraints_head">
+								<th>#</th>
+								<th>x1</th>
+								<th>x2</th>
+								<th>sign</th>
+								<th>b</th>
+							</tr>
+							<tr id="constraints_1">
+								<td>1</td>
+								<td><input id="x1_1" value="1" type="number" class="form-control"/></td>
+								<td><input id="x1_2" value="1" type="number" class="form-control"/></td>
+								<td>
+									<select id="type_1" class="form-control">
+										<option value="<">&leq; &nbsp;</option>
+										<option class="block" value=">">&geq; &nbsp;</option>
+										<option value="=">= &nbsp;</option>
+									</select>
+								</td>
+								<td><input id="b1" value="1" type="number" class="form-control"/></td>
+							</tr>
+							<tr id="constraints_2">
+								<td>2</td>
+								<td><input id="x2_1" value="1" type="number" class="form-control"/></td>
+								<td><input id="x2_2" value="1" type="number" class="form-control"/></td>
+								<td>
+									<select id="type_1" class="form-control">
+										<option value="<">&leq; &nbsp;</option>
+										<option class="block" value=">">&geq; &nbsp;</option>
+										<option value="=">= &nbsp;</option>
+									</select>
+								</td>
+								<td><input id="b1" value="1" type="number" class="form-control"/></td>
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<script src="libs/jquery-2.1.4/jquery-2.1.4.min.js"></script>
-	<script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+	<script src="libs/angular-1.4.2/angular.min.js"></script>
 	<script src="simplex.js"></script>
+	<script src="structure.js"></script>
 	</body>
 </html>
