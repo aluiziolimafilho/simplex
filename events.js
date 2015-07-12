@@ -18,9 +18,9 @@
 		gm.removeLine();
 	});
 	$("#move_to_dual_btn").on('click',function(e){
-		console.log("dual.");
+
 	});
 	$("#calculate_simplex_btn").on('click',function(e){
-		console.log("simplex.");
+
 	});
 })();
