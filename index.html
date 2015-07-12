@@ -13,35 +13,44 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-2">
+			<div class="row">
 				<div class="row">
 					<div class="page-header">
 						<h3>Tools</h3>
 					</div>
 				</div>
-				<div class="row"></div>
-				<div class="row">
+				<div class="col-md-2">
 					<p>
 						<button id="add_column_btn" class="btn btn-primary btn-block">Add column</button>
 					</p>
 				</div>
-				<div class="row">
+				<div class="col-md-2">
+					<p>
+						<button id="remove_column_btn" class="btn btn-primary btn-block">Remove column</button>
+					</p>
+				</div>
+				<div class="col-md-2">
 					<p>
 						<button id="add_line_btn" class="btn btn-primary btn-block">Add line</button>
 					</p>
 				</div>
-				<div class="row">
+				<div class="col-md-2">
+					<p>
+						<button id="remove_line_btn" class="btn btn-primary btn-block">Remove line</button>
+					</p>
+				</div>
+				<div class="col-md-2">
 					<p>
 						<button id="move_to_dual_btn" class="btn btn-primary btn-block">Move to dual</button>
 					</p>
 				</div>
-				<div class="row">
+				<div class="col-md-2">
 					<p>
 						<button id="calculate_simplex_btn" class="btn btn-primary btn-block">Calculate Simplex</button>
 					</p>
 				</div>
 			</div>
-			<div class="col-md-9 col-md-offset-1">
+			<div class="row">
 				<div class="row">
 					<div class="page-header">
 						<h3>Linear Programming Problem</h3>
@@ -69,12 +78,8 @@
 					<div class="col-md-10">
 						<table class="table">
 							<tr id="function_head">
-								<th>c1</th>
-								<th>c2</th>
 							</tr>
 							<tr id="function_variables">
-								<td><input id="c1" value="1" type="number" class="form-control"/></td>
-								<td><input id="c2" value="1" type="number" class="form-control"/></td>
 							</tr>
 						</table>
 					</div>
@@ -85,47 +90,19 @@
 				<div class="row">
 					<div class="col-md-12">
 						<table class="table">
-							<tr id="constraints_head">
-								<th>#</th>
-								<th>x1</th>
-								<th>x2</th>
-								<th>sign</th>
-								<th>b</th>
-							</tr>
-							<tr id="constraints_1">
-								<td>1</td>
-								<td><input id="x1_1" value="1" type="number" class="form-control"/></td>
-								<td><input id="x1_2" value="1" type="number" class="form-control"/></td>
-								<td>
-									<select id="type_1" class="form-control">
-										<option value="<">&leq; &nbsp;</option>
-										<option class="block" value=">">&geq; &nbsp;</option>
-										<option value="=">= &nbsp;</option>
-									</select>
-								</td>
-								<td><input id="b1" value="1" type="number" class="form-control"/></td>
-							</tr>
-							<tr id="constraints_2">
-								<td>2</td>
-								<td><input id="x2_1" value="1" type="number" class="form-control"/></td>
-								<td><input id="x2_2" value="1" type="number" class="form-control"/></td>
-								<td>
-									<select id="type_1" class="form-control">
-										<option value="<">&leq; &nbsp;</option>
-										<option class="block" value=">">&geq; &nbsp;</option>
-										<option value="=">= &nbsp;</option>
-									</select>
-								</td>
-								<td><input id="b1" value="1" type="number" class="form-control"/></td>
-							</tr>
+							<thead id="constraints_head">
+							</thead>
+							<tbody id="constraints">
+							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script src="libs/angular-1.4.2/angular.min.js"></script>
+	<script src="libs/jquery-2.1.4/jquery.min.js"></script>
 	<script src="simplex.js"></script>
-	<script src="structure.js"></script>
+	<script src="graphic-manager.js"></script>
+	<script src="events.js"></script>
 	</body>
 </html>
