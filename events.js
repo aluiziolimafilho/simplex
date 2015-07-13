@@ -1,5 +1,6 @@
 (function(){
 	var gm = new GraphicManager();
+	var dm = new DataManager(gm);
 	gm.putMatrix(2,2);
 
 	$("#add_column_btn").on('click',function(e){
