@@ -1,9 +1,6 @@
 (function(){
 	var gm = new GraphicManager();
-	gm.addColumn();
-	gm.addColumn();
-	gm.addLine();
-	gm.addLine();
+	gm.putMatrix(2,2);
 
 	$("#add_column_btn").on('click',function(e){
 		gm.addColumn();

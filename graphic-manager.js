@@ -1,33 +1,30 @@
 function GraphicManager(){
 	this.$function_head = $('#function_head');
-	this.$kind_of_function = $('#kind_of_function');
 	this.$function_variables = $('#function_variables');
 	this.$constraints_head = $('#constraints_head');
 	this.$constraints = $("#constraints");
 
-	this.constraint_id = "#constraint_";
-	this.variable_id = "#x";
-	this.variableOnFunction_id = "#c";
-
 	this.numberOfVariables = 0; // número total de varáveis do PPL.
 	this.numberOfConstraints = 0; // número total restrições do PPL.
 
-	this.addVariableInFunctionHead = function(number){
+	var that = this;
+
+	var addVariableInFunctionHead = function(number){
 		var element = '<th>c'+number+'</th>';
-		this.$function_head.append(element);
+		that.$function_head.append(element);
 	};
 
-	this.addFunctionVariables = function(number){
+	var addFunctionVariables = function(number){
 		var element = '<td><input id="c'+number+'" value="1" type="number" class="form-control"/></td>';
-		this.$function_variables.append(element);
+		that.$function_variables.append(element);
 	};
 
-	this.updateConstraintHead = function(){
-		this.$constraints_head.empty();
+	var updateConstraintHead = function(){
+		that.$constraints_head.empty();
 		
 		var element = '<tr>';
 		element += '<th>#</th>';
-		for(var i=0; i<this.numberOfVariables; i++){
+		for(var i=0; i<that.numberOfVariables; i++){
 			element += '<th>x'+(i+1)+'</th>';
 		}
 
@@ -35,20 +32,20 @@ function GraphicManager(){
 					'<th>b</th>'+
 					'</tr>';
 
-		this.$constraints_head.append(element);
+		that.$constraints_head.append(element);
 	};
 
-	this.addConstraint = function(number){
+	var addConstraint = function(number){
 
 		var element = '<tr id="constraint_'+number+'">';
 		element += '<td>'+number+'</td>';
 
-		for(var i=0; i<this.numberOfVariables; i++){
+		for(var i=0; i<that.numberOfVariables; i++){
 			element += '<td><input id="x'+number+'_'+i+'" value="1" type="number" class="form-control"/></td>';
 		}
 
 		element += 	'<td>'+
-						'<select id="type_'+number+'" class="form-control">'+
+						'<select id="sign_'+number+'" class="form-control">'+
 							'<option value="<">&leq; &nbsp; &nbsp; &nbsp;</option>'+
 							'<option class="block" value=">">&geq; &nbsp;</option>'+
 							'<option value="=">= &nbsp;</option>'+
@@ -57,50 +54,83 @@ function GraphicManager(){
 					'<td><input id="b'+number+'" value="1" type="number" class="form-control"/></td>';
 		element += '</tr>';
 
-		this.$constraints.append(element);
+		that.$constraints.append(element);
 	};
 
-	this.updateConstraintVariable = function(){
-		this.$constraints.empty();
-		for(var i=0; i<this.numberOfConstraints; i++){
-			this.addConstraint(i+1);
+	var updateConstraintVariable = function(){
+		that.$constraints.empty();
+		for(var i=0; i<that.numberOfConstraints; i++){
+			addConstraint(i+1);
 		}
 	};
 
 	this.addLine = function(){
-		this.numberOfConstraints++;
-		this.addConstraint(this.numberOfConstraints);
+		that.numberOfConstraints++;
+		addConstraint(that.numberOfConstraints);
 	};
 
 	this.addColumn = function(){
-		this.numberOfVariables++;
-		this.addVariableInFunctionHead(this.numberOfVariables);
-		this.addFunctionVariables(this.numberOfVariables);
-		this.updateConstraintHead();
-		this.updateConstraintVariable();
+		that.numberOfVariables++;
+		addVariableInFunctionHead(that.numberOfVariables);
+		addFunctionVariables(that.numberOfVariables);
+		updateConstraintHead();
+		updateConstraintVariable();
 	};
 
 	this.removeLine = function(){
-		if(this.numberOfConstraints == 0) return;
+		if(that.numberOfConstraints == 0) return;
 
-		this.numberOfConstraints--;
-		this.$constraints.empty();
-		for(var i=0; i<this.numberOfConstraints; i++){
-			this.addConstraint(i+1);
+		that.numberOfConstraints--;
+		that.$constraints.empty();
+		for(var i=0; i<that.numberOfConstraints; i++){
+			addConstraint(i+1);
 		}
 	};
 
 	this.removeColumn = function(){
-		if(this.numberOfVariables == 0) return;
+		if(that.numberOfVariables == 0) return;
 
-		this.numberOfVariables--;
-		this.$function_head.empty();
-		this.$function_variables.empty();
-		this.updateConstraintHead();
-		this.updateConstraintVariable();
-		for(var i=0; i<this.numberOfVariables; i++){
-			this.addVariableInFunctionHead(i+1);
-			this.addFunctionVariables(i+1);
+		that.numberOfVariables--;
+		that.$function_head.empty();
+		that.$function_variables.empty();
+		updateConstraintHead();
+		updateConstraintVariable();
+		for(var i=0; i<that.numberOfVariables; i++){
+			addVariableInFunctionHead(i+1);
+			addFunctionVariables(i+1);
 		}
+	};
+
+	this.putMColumns = function(numberOfColumns){
+		if(numberOfColumns < 0) return;
+
+		that.numberOfVariables = numberOfColumns;
+		that.$function_head.empty();
+		that.$function_variables.empty();
+		updateConstraintHead();
+		updateConstraintVariable();
+		for(var i=0; i<that.numberOfVariables; i++){
+			addVariableInFunctionHead(i+1);
+			addFunctionVariables(i+1);
+		}
+		
+	};
+
+	this.putNLines = function(numberOfLines){
+		if(numberOfLines < 0) return;
+
+		that.numberOfConstraints = numberOfLines;
+		that.$constraints.empty();
+		for(var i=0; i<that.numberOfConstraints; i++){
+			addConstraint(i+1);
+		}
+	};
+
+	this.putMatrix = function(lines, columns){
+		if(lines < 0 || columns < 0) return;
+
+		that.$constraints.empty();
+		this.putMColumns(columns);
+		this.putNLines(lines);
 	};
 }
