@@ -1,8 +1,8 @@
 function GraphicManager(){
-	this.$function_head = $('#function_head');
-	this.$function_variables = $('#function_variables');
-	this.$constraints_head = $('#constraints_head');
-	this.$constraints = $("#constraints");
+	var $function_head = $('#function_head');
+	var $function_variables = $('#function_variables');
+	var $constraints_head = $('#constraints_head');
+	var $constraints = $("#constraints");
 
 	this.numberOfVariables = 0; // número total de varáveis do PPL.
 	this.numberOfConstraints = 0; // número total restrições do PPL.
@@ -11,16 +11,16 @@ function GraphicManager(){
 
 	var addVariableInFunctionHead = function(number){
 		var element = '<th>c'+number+'</th>';
-		that.$function_head.append(element);
+		$function_head.append(element);
 	};
 
 	var addFunctionVariables = function(number){
 		var element = '<td><input id="c'+number+'" value="1" type="number" class="form-control"/></td>';
-		that.$function_variables.append(element);
+		$function_variables.append(element);
 	};
 
 	var updateConstraintHead = function(){
-		that.$constraints_head.empty();
+		$constraints_head.empty();
 		
 		var element = '<tr>';
 		element += '<th>#</th>';
@@ -32,7 +32,7 @@ function GraphicManager(){
 					'<th>b</th>'+
 					'</tr>';
 
-		that.$constraints_head.append(element);
+		$constraints_head.append(element);
 	};
 
 	var addConstraint = function(number){
@@ -41,7 +41,7 @@ function GraphicManager(){
 		element += '<td>'+number+'</td>';
 
 		for(var i=0; i<that.numberOfVariables; i++){
-			element += '<td><input id="x'+number+'_'+i+'" value="1" type="number" class="form-control"/></td>';
+			element += '<td><input id="x'+number+'_'+(i+1)+'" value="1" type="number" class="form-control"/></td>';
 		}
 
 		element += 	'<td>'+
@@ -54,11 +54,11 @@ function GraphicManager(){
 					'<td><input id="b'+number+'" value="1" type="number" class="form-control"/></td>';
 		element += '</tr>';
 
-		that.$constraints.append(element);
+		$constraints.append(element);
 	};
 
 	var updateConstraintVariable = function(){
-		that.$constraints.empty();
+		$constraints.empty();
 		for(var i=0; i<that.numberOfConstraints; i++){
 			addConstraint(i+1);
 		}
@@ -81,7 +81,7 @@ function GraphicManager(){
 		if(that.numberOfConstraints == 0) return;
 
 		that.numberOfConstraints--;
-		that.$constraints.empty();
+		$constraints.empty();
 		for(var i=0; i<that.numberOfConstraints; i++){
 			addConstraint(i+1);
 		}
@@ -91,8 +91,8 @@ function GraphicManager(){
 		if(that.numberOfVariables == 0) return;
 
 		that.numberOfVariables--;
-		that.$function_head.empty();
-		that.$function_variables.empty();
+		$function_head.empty();
+		$function_variables.empty();
 		updateConstraintHead();
 		updateConstraintVariable();
 		for(var i=0; i<that.numberOfVariables; i++){
@@ -105,8 +105,8 @@ function GraphicManager(){
 		if(numberOfColumns < 0) return;
 
 		that.numberOfVariables = numberOfColumns;
-		that.$function_head.empty();
-		that.$function_variables.empty();
+		$function_head.empty();
+		$function_variables.empty();
 		updateConstraintHead();
 		updateConstraintVariable();
 		for(var i=0; i<that.numberOfVariables; i++){
@@ -120,7 +120,7 @@ function GraphicManager(){
 		if(numberOfLines < 0) return;
 
 		that.numberOfConstraints = numberOfLines;
-		that.$constraints.empty();
+		$constraints.empty();
 		for(var i=0; i<that.numberOfConstraints; i++){
 			addConstraint(i+1);
 		}
@@ -129,7 +129,7 @@ function GraphicManager(){
 	this.putMatrix = function(lines, columns){
 		if(lines < 0 || columns < 0) return;
 
-		that.$constraints.empty();
+		$constraints.empty();
 		this.putMColumns(columns);
 		this.putNLines(lines);
 	};
