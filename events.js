@@ -21,6 +21,6 @@
 		gm.putMatrix(columns,lines);
 	});
 	$("#calculate_simplex_btn").on('click',function(e){
-
+		
 	});
 })();

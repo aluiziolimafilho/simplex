@@ -6,35 +6,60 @@ function LPP(){
 	//var constraint = {values: [1,1], sign: "<", b: 1};
 	this.constraints = [];
 
+	var that = this;
+
+	this.getNumberOfLines = function(){
+		return that.constraints.length;
+	};
+
+	this.getNumberOfColumns = function(){
+		return that.c.length;
+	};
+
+	this.getType = function(){
+		return that.type;
+	};
+
+	this.getC = function(index){
+		return that.c[index];
+	}
+
+	this.getConstraint = function(index){
+		return that.constraints[index];
+	}
+
 	this.setType = function(type){
 		if( type != "min" && type != "max" ){
 			console.log("Error: wrong input of type. This must be 'min' or 'max'.");
 			return;
 		}
-		this.type = type;
+		that.type = type;
 	};
 
 	this.addC = function(c){
-		if( typeof c != 'number') return;
-		this.c.push(c);
+		that.c.push(c);
+	};
+
+	this.addVectorC = function(c){
+		that.c = c;
 	};
 
 	this.createConstraint = function(valuesIn, signIn, bIn){
-		if( typeof valuesIn != "array" 
-			|| typeof signIn != "string" 
-			|| typeof bIn != "number" ){
-
-			console.log("Error: wrong type of inputs in constraint.");
-			return;
-		}
-
 		var constraint = {values: valuesIn, sign: signIn, b: bIn};
-		this.addConstraint(constraint);
+		that.addConstraint(constraint);
 		
 	};
 
 	this.addConstraint = function(constraintIn){
-		this.constraints.push(constraintIn);
+		that.constraints.push(constraintIn);
+	};
+
+	this.isValid = function(){ // testa se o PPL é válido, ou seja, testa se a estrutura está correta.
+		return true;
+	};
+
+	this.dualizeLPP = function(){
+		
 	};
 }
 

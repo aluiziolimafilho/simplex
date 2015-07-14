@@ -8,7 +8,7 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 	var sign_id = "#sign_";
 	var b_id = "#b";
 
-	//var that = this;
+	var that = this;
 
 	this.getKindOfFunction = function(){
 		var kindOf = $kind_of_function.val();
@@ -57,5 +57,57 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 			matrix.push(list);
 		}
 		return matrix;
+	};
+
+	this.getLPP = function(){
+		var lpp = new LPP();
+		lpp.setType(that.getKindOfFunction());
+
+		lpp.addVectorC(that.getVectorC());
+
+		for(var i=0; i<gm.numberOfConstraints; i++){
+			var list = [];
+			for(var j=0; j<gm.numberOfVariables; j++){
+				var $id = $(variable_id+(i+1)+"_"+(j+1));
+				var value = parseFloat($id.val());
+				list.push(value);
+			}
+
+			var $s_id = $(sign_id+(i+1));
+			var s_value = $s_id.val();
+
+			var $Bid = $(b_id+(i+1));
+			var b_value = parseFloat($Bid.val());
+
+			lpp.createConstraint(list, s_value, b_value);
+		}
+
+		return lpp;
+	};
+
+	this.putLPP = function(lpp){
+		gm.putMatrix(lpp.getNumberOfLines(), lpp.getNumberOfColumns());
+
+		$kind_of_function.val(lpp.getType());
+
+		for(var i=0; i<gm.numberOfVariables; i++){
+			var $id = $(variableOnFunction_id+(i+1));
+			$id.val(lpp.getC(i));
+		}
+
+		for(var i=0; i<gm.numberOfConstraints; i++){
+			var constraint = lpp.getConstraint(i);
+
+			for(var j=0; j<gm.numberOfVariables; j++){
+				var $id = $(variable_id+(i+1)+"_"+(j+1));
+				$id.val(constraint.values[j]);
+			}
+
+			var $s_id = $(sign_id+(i+1));
+			$s_id.val(constraint.sign);
+
+			var $Bid = $(b_id+(i+1));
+			$Bid.val(constraint.b);
+		}
 	};
 }
