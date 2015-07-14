@@ -93,6 +93,7 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 	this.partialPutLPP = function(lpp){
 		
 		$kind_of_function.val(lpp.getType());
+
 		var columns = gm.numberOfVariables > lpp.getNumberOfColumns() ? lpp.getNumberOfColumns() : gm.numberOfVariables;
 		var lines = gm.numberOfConstraints > lpp.getNumberOfLines() ? lpp.getNumberOfLines() : gm.numberOfConstraints;
 
