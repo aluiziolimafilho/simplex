@@ -58,9 +58,29 @@ function LPP(){
 		return true;
 	};
 
-	this.dualizeLPP = function(){
+	/*this.dualizeLPP = function(){
+		var dual = new LPP();
+		var newType = that.type == "min" ? "max" : "min";
+		dual.setType(newType);
+
+		var signList = [];
+		for(var i=0; i<that.getNumberOfLines(); i++){
+			var constraint = that.constraints[i];
+			dual.addC(constraint.b);
+			signList.push(constraint.sign);
+		}
+
+		for(var j=0; j<that.getNumberOfColumns(); j++){
+			var list = [];
+			for(var i=0; i<that.getNumberOfLines(); i++){
+				var constraint = that.constraints[i];
+				list.push(constraint.values[j]);
+			}
+			dual.createConstraint(list, signList[j], that.c[j]);
+		}
 		
-	};
+		return dual;
+	};*/
 }
 
 function SimplexTable(){

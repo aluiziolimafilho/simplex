@@ -87,18 +87,24 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 
 	this.putLPP = function(lpp){
 		gm.putMatrix(lpp.getNumberOfLines(), lpp.getNumberOfColumns());
+		that.partialPutLPP(lpp);
+	};
 
+	this.partialPutLPP = function(lpp){
+		
 		$kind_of_function.val(lpp.getType());
+		var columns = gm.numberOfVariables > lpp.getNumberOfColumns() ? lpp.getNumberOfColumns() : gm.numberOfVariables;
+		var lines = gm.numberOfConstraints > lpp.getNumberOfLines() ? lpp.getNumberOfLines() : gm.numberOfConstraints;
 
-		for(var i=0; i<gm.numberOfVariables; i++){
+		for(var i=0; i<columns; i++){
 			var $id = $(variableOnFunction_id+(i+1));
 			$id.val(lpp.getC(i));
 		}
 
-		for(var i=0; i<gm.numberOfConstraints; i++){
+		for(var i=0; i<lines; i++){
 			var constraint = lpp.getConstraint(i);
 
-			for(var j=0; j<gm.numberOfVariables; j++){
+			for(var j=0; j<columns; j++){
 				var $id = $(variable_id+(i+1)+"_"+(j+1));
 				$id.val(constraint.values[j]);
 			}
