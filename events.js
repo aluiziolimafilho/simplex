@@ -16,8 +16,8 @@
 		gm.removeLine();
 	});
 	$("#move_to_dual_btn").on('click',function(e){
-		var lines = gm.numberOfConstraints;
-		var columns = gm.numberOfVariables;
+		var lines = gm.getNumberOfLines();
+		var columns = gm.getNumberOfColumns();
 		gm.putMatrix(columns,lines);
 	});
 	$("#calculate_simplex_btn").on('click',function(e){

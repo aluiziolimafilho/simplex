@@ -64,6 +64,14 @@ function GraphicManager(){
 		}
 	};
 
+	this.getNumberOfLines = function(){
+		return that.numberOfConstraints;
+	};
+
+	this.getNumberOfColumns = function(){
+		return that.numberOfVariables;
+	};
+
 	this.addLine = function(){
 		that.numberOfConstraints++;
 		addConstraint(that.numberOfConstraints);
