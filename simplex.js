@@ -57,40 +57,27 @@ function LPP(){
 	this.isValid = function(){ // testa se o PPL é válido, ou seja, testa se a estrutura está correta.
 		return true;
 	};
-
-	/*this.dualizeLPP = function(){
-		var dual = new LPP();
-		var newType = that.type == "min" ? "max" : "min";
-		dual.setType(newType);
-
-		var signList = [];
-		for(var i=0; i<that.getNumberOfLines(); i++){
-			var constraint = that.constraints[i];
-			dual.addC(constraint.b);
-			signList.push(constraint.sign);
-		}
-
-		for(var j=0; j<that.getNumberOfColumns(); j++){
-			var list = [];
-			for(var i=0; i<that.getNumberOfLines(); i++){
-				var constraint = that.constraints[i];
-				list.push(constraint.values[j]);
-			}
-			dual.createConstraint(list, signList[j], that.c[j]);
-		}
-		
-		return dual;
-	};*/
 }
 
 function SimplexTable(){
 
 	this.variablesInBase = []; // lista de índices das variáveis dentro da base.
 	this.variablesOutBase = []; // lista de índices das variáveis fora da base.
-	this.baseLines = []; // lista de listas das linhas da matriz B-1*A.
+
+	/*this.baseLines = []; // lista de listas das linhas da matriz B-1*A.
 	this.b = []; // linhas da matriz B-1*b.
 	this.costs = []; // lista dos custos reduzidos de cada variável(o índice equivale a variável).
 	this.image = 0; // valor da imagem da função.
+	*/
+
+	this.slackVariables = []; // aqui fica uma lista dos indices das variaveis de folga.
+	this.virtualVariables = []; // aqui fica uma lista dos indices das variaveis virtuais.
+	this.st = math.matrix(); // st = simplex table.
+
+	var that = this;
+
+	this.transformFromLPPToSimplexTable = function(lpp){
+	};
 }
 
 function Simplex(lpp){

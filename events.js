@@ -23,12 +23,10 @@
 		gm.removeLine();
 		dm.partialPutLPP(lpp);
 	});
-	/*$("#move_to_dual_btn").on('click',function(e){
-		var lines = gm.getNumberOfLines();
-		var columns = gm.getNumberOfColumns();
-		gm.putMatrix(columns,lines);
-	});*/
 	$("#calculate_simplex_btn").on('click',function(e){
-		
+		var st = new SimplexTable();
+		var lpp = dm.getLPP();
+		dm.putLPP(lpp);
+		st.transformFromLPPToSimplexTable(lpp);
 	});
 })();
