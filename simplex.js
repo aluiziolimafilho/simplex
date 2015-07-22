@@ -250,10 +250,84 @@ function SimplexTable(){
 
 		that.st = setCostLine(lpp,constraintTable);
 	};
+
+	this.isGreatTable = function(){
+		
+		return false;
+	};
+
+	this.hasVirtualVariableOnBase = function(){
+		if(that.virtualVariables.length == 0) return false;
+		return true;
+	};
+
+	this.variableToInBase = function(){
+		return 0;
+	};
+
+	this.varialbeToOutBase = function(){
+		return 0;
+	};
+
+	var makePivoting = function(vIn, vOut){
+
+	};
+
+	this.nextTable = function(){
+		var vIn = that.variableToInBase();
+		var vOut = that.varialbeToOutBase();
+		makePivoting(vIn, vOut);
+	};
+
+	this.removeVirtualVariables = function(){
+		if(that.virtualVariables.length == 0) return;
+	};
+
+	this.getSolution = function(){
+		return [];
+	};
+
+	this.getImage = function(){
+		return 0;
+	};
 }
 
 function Simplex(lpp){
 	this.lpp = lpp; // objeto que representa o ppl de acordo com a classe definida acima;
 
-	this.stepsOfSimplex = []; // lista das tabelas de cada iteração do simplex.
+	this.firstFase = []; // lista das tabelas de cada iteração do simplex da primeira fase.
+	this.secondFase = []; // lista das tabelas de cada iteração do simplex da segunda fase.
+	this.solution = null;
+
+	var that = this;
+
+	this.calculateSimplex2Fases = function(){
+		var table = new SimplexTable();
+		table.transformFromLPPToSimplexTable(that.lpp);
+		that.firstFase.push(table);
+		while(table.hasVirtualVariableOnBase()){
+			table.nextTable();
+			that.firstFase.push(table);
+		}
+		table.removeVirtualVariables();
+		that.secondFase.push(table);
+		while(!table.isGreatTable()){
+			table.nextTable();
+			that.secondFase.push(table);
+		}
+		that.solution = table;
+		return table;
+	};
+
+	this.getSolution = function(){
+		return that.solution;
+	};
+
+	this.getStepsFirstFase = function(){
+		return that.firstFase;
+	};
+
+	this.getStepsSecondFase = function(){
+		return that.firstFase;
+	};
 }

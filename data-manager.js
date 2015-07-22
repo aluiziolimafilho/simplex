@@ -95,4 +95,8 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 			$Bid.val(constraint.b);
 		}
 	};
+
+	this.putSimplex = function(simplex){
+
+	};
 }

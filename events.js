@@ -31,9 +31,14 @@
 		dm.partialPutLPP(lpp);
 	});
 	$("#calculate_simplex_btn").on('click',function(e){
-		var st = new SimplexTable();
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
+
+		/*var simplex = new Simplex(lpp);
+		simplex.calculateSimplex2Fases();
+		dm.putSimplex(simplex);*/
+
+		var st = new SimplexTable();
 		st.transformFromLPPToSimplexTable(lpp);
 	});
 })();
