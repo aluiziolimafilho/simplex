@@ -263,31 +263,60 @@ function SimplexTable(lpp){
 		return false;
 	};
 
-	//TODO
 	this.variableToInBase = function(){
-		return null;
+		var size = that.st.size();
+		var limit = size[1] -1;
+		var variables = math.ones(limit);
+		var costs = that.st.subset(math.index(0,[0,limit]));
+		console.log(costs);
+		var out = null;
+		var leastCost = null;
+
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var index = that.variablesInBase[i];
+			variables.subset(math.index(index),0);
+		}
+		
+		for(var i=0; i<limit; i++){
+			var value = variables.subset(math.index(i));
+			if(value == 1){
+				var cost = costs.subset(math.index(0,i));
+				if(cost > 0 && ( leastCost == null || cost > leastCost )){
+					out = i;
+					leastCost = cost;
+				}
+			}
+		}
+
+		return out;
 	};
 
 	//TODO
-	this.varialbeToOutBase = function(){
+	this.varialbeToOutBase = function(vIn){
 		return null;
 	};
 
 	this.isGreatTable = function(){
 		var vIn = that.variableToInBase();
-		var vOut = that.varialbeToOutBase();
+		var vOut = that.varialbeToOutBase(vIn);
 		if(vIn == null || vOut == null) return true;
 		else return false;
 	};
 
 	//TODO
 	var makePivoting = function(vIn, vOut){
-
+		var pos = null;
+		for(var i=0; i<that.variablesInBase.length; i++){
+			if(vOut == that.variablesInBase[i]){
+				pos = i;
+				break;
+			}
+		}
 	};
 
 	this.nextTable = function(){
 		var vIn = that.variableToInBase();
-		var vOut = that.varialbeToOutBase();
+		var vOut = that.varialbeToOutBase(vIn);
 		for(var i=0; i<that.variablesInBase.length; i++){
 			if(vOut == that.variablesInBase[i]){
 				that.variablesInBase[i] = vIn;
