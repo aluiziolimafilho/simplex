@@ -300,6 +300,8 @@ function SimplexTable(){
 	//TODO
 	this.removeVirtualVariables = function(){
 		if(that.virtualVariables.length == 0) return;
+
+		that.virtualVariables = [];
 	};
 
 	//TODO
@@ -307,9 +309,11 @@ function SimplexTable(){
 		return [];
 	};
 
-	//TODO
+	//TODOing
 	this.getImage = function(){
-		return 0;
+		var size = that.st.size();
+		var image = that.st.subset(math.index(0,size[1]-1));
+		return image;
 	};
 }
 
