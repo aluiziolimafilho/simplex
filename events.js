@@ -1,7 +1,14 @@
 (function(){
 	var gm = new GraphicManager();
 	var dm = new DataManager(gm);
-	gm.putMatrix(2,2);
+	var firstLPP = new LPP();
+	firstLPP.setType("min");
+	firstLPP.addVectorC([-1,-1]);
+	firstLPP.createConstraint([3,2],'>',6);
+	firstLPP.createConstraint([4,1],'<',16);
+	firstLPP.createConstraint([-2,3],'<',6);
+	firstLPP.createConstraint([1,4],'>',4);
+	dm.putLPP(firstLPP);
 
 	$("#add_column_btn").on('click',function(e){
 		var lpp = dm.getLPP();

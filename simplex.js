@@ -21,12 +21,17 @@ function LPP(){
 	};
 
 	this.getC = function(index){
-		return that.c[index];
-	}
+		if(index >= 0 && index < that.c.length) return that.c[index];
+		else return 0;
+	};
+
+	this.getCVector = function(){
+		return that.c;
+	};
 
 	this.getConstraint = function(index){
 		return that.constraints[index];
-	}
+	};
 
 	this.setType = function(type){
 		if( type != "min" && type != "max" ){
@@ -62,13 +67,7 @@ function LPP(){
 function SimplexTable(){
 
 	this.variablesInBase = []; // lista de índices das variáveis dentro da base.
-	this.variablesOutBase = []; // lista de índices das variáveis fora da base.
-
-	/*this.baseLines = []; // lista de listas das linhas da matriz B-1*A.
-	this.b = []; // linhas da matriz B-1*b.
-	this.costs = []; // lista dos custos reduzidos de cada variável(o índice equivale a variável).
-	this.image = 0; // valor da imagem da função.
-	*/
+	//this.variablesOutBase = []; // lista de índices das variáveis fora da base.
 
 	this.slackVariables = []; // aqui fica uma lista dos indices das variaveis de folga.
 	this.virtualVariables = []; // aqui fica uma lista dos indices das variaveis virtuais.
@@ -87,12 +86,12 @@ function SimplexTable(){
 				case '<':
 					numberOfSlacks++;
 					listOfSlack.push(1);
-					that.slackVariables.push(lpp.getNumberOfLines()+i-jump1);
+					that.slackVariables.push(lpp.getNumberOfColumns()+i-jump1);
 					break;
 				case '>':
 					numberOfSlacks++;
 					listOfSlack.push(-1);
-					that.slackVariables.push(lpp.getNumberOfLines()+i-jump1);
+					that.slackVariables.push(lpp.getNumberOfColumns()+i-jump1);
 					break;
 				case '=':
 					listOfSlack.push(0);
@@ -148,7 +147,7 @@ function SimplexTable(){
 		var identity = math.zeros(size[0]);
 		var size = constraintTable.size();
 		var countVirtual = size[1];
-
+		
 		for(var i=0; i<that.slackVariables.length; i++){
 			var index = that.slackVariables[i];
 			var unit = isUnity(constraintTable,index);
@@ -156,7 +155,6 @@ function SimplexTable(){
 				identity.subset(math.index(unit),index);
 			}
 		}
-
 		var basics = identity.map(function(value,index,matrix){
 			if(value == 0){
 				value = countVirtual;
@@ -200,7 +198,49 @@ function SimplexTable(){
 		var b = math.matrix(listB);
 		constraintTable = math.concat(constraintTable,b);
 		return constraintTable;
-	}; 
+	};
+
+	var setCostLine = function(lpp,constraintTable){
+		var weights = [];
+		var size = constraintTable.size();
+		var limit = size[1] - that.virtualVariables.length-1;
+		var addVector = [];
+
+		if(that.virtualVariables.length == 0){
+			for(var i=0; i<that.variablesInBase.length; i++){
+				var variable = that.variablesInBase[i];
+				var value = lpp.getC(variable);
+				weights.push(value);
+			}
+			var first = math.matrix(lpp.getCVector());
+			var second = math.zeros(that.slackVariables.length + that.virtualVariables.length);
+			addVector = math.concat(first,second);
+			addVector = math.concat(addVector,[0]);
+		}
+		else{
+			for(var i=0; i<that.variablesInBase.length; i++){
+				var value = that.variablesInBase[i];
+				if(value >= limit) weights.push(1);
+				else weights.push(0);
+			}
+			var first = math.zeros(limit);
+			var second = math.ones(that.virtualVariables.length);
+			addVector = math.concat(first,second);
+			addVector = math.concat(addVector,[0]);
+		}
+		weights = math.matrix(weights);
+		
+		var costs = math.multiply(weights,constraintTable);
+		costs = math.subtract(costs,addVector);
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var value = that.variablesInBase[i];
+			costs.subset(math.index(value),0);
+		}
+
+		constraintTable = math.concat([costs.valueOf()],constraintTable,0);
+
+		return constraintTable;
+	}
 
 	this.transformFromLPPToSimplexTable = function(lpp){
 		var constraintTable = getConstraintTable(lpp);
@@ -208,9 +248,7 @@ function SimplexTable(){
 		constraintTable = setVirtualColumn(constraintTable);
 		constraintTable = setBColumn(lpp,constraintTable);
 
-		console.log(constraintTable);
-		console.log(that.variablesInBase);
-		console.log(that.virtualVariables);
+		that.st = setCostLine(lpp,constraintTable);
 	};
 }
 
