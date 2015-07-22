@@ -269,7 +269,7 @@ function SimplexTable(lpp){
 		var variables = math.ones(limit);
 		var costs = that.st.subset(math.index(0,[0,limit]));
 		console.log(costs);
-		var out = null;
+		var getIn = null;
 		var leastCost = null;
 
 		for(var i=0; i<that.variablesInBase.length; i++){
@@ -282,18 +282,35 @@ function SimplexTable(lpp){
 			if(value == 1){
 				var cost = costs.subset(math.index(0,i));
 				if(cost > 0 && ( leastCost == null || cost > leastCost )){
-					out = i;
+					getIn = i;
 					leastCost = cost;
 				}
 			}
 		}
 
-		return out;
+		return getIn;
 	};
 
-	//TODO
 	this.varialbeToOutBase = function(vIn){
-		return null;
+		var toOut = math.ones(that.variablesInBase.length);
+		toOut = math.multiply(-1,toOut);
+		var size = that.st.size();
+		var getOut = null;
+		var minimum = null;
+		var b = that.st.subset(math.index([1, size[0]],size[1]-1));
+
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var yr = that.st.subset(math.index(i+1,vIn));
+			if(yr > 0){
+				var bi = b.subset(math.index(i,0));
+				var value = bi/yr;
+				if(minimum == null || value < minimum){
+					getOut = that.variablesInBase[i];
+					minimum = value;
+				}
+			}
+		}
+		return getOut;
 	};
 
 	this.isGreatTable = function(){
