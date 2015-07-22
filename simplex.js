@@ -251,10 +251,15 @@ function SimplexTable(){
 		that.st = setCostLine(lpp,constraintTable);
 	};
 
-	//TODO
 	this.hasVirtualVariableOnBase = function(){
 		if(that.virtualVariables.length == 0) return false;
-		
+		var size = that.st.size();
+		var limit = size[1] -1 - that.virtualVariables.length;
+		for(var i=0; i<that.variablesInBase.length; i++){
+			if(that.variablesInBase[i] >= limit){
+				return true;
+			}
+		}
 		return false;
 	};
 
