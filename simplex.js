@@ -342,8 +342,8 @@ function Simplex(lpp){
 	var that = this;
 
 	this.calculateSimplex2Fases = function(){
-		var table = new SimplexTable();
-		table.transformFromLPPToSimplexTable(that.lpp);
+		var table = new SimplexTable(that.lpp);
+		table.transformFromLPPToSimplexTable();
 		that.firstFase.push(table);
 		while(table.hasVirtualVariableOnBase()){
 			table.nextTable();
