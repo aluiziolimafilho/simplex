@@ -304,12 +304,19 @@ function SimplexTable(){
 		that.virtualVariables = [];
 	};
 
-	//TODO
 	this.getSolution = function(){
-		return [];
+		var size = that.st.size();
+		var solution = math.zeros(size[1]-1);
+		var b = that.st.subset(math.index([1,size[0]],size[1]-1));
+
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var index = that.variablesInBase[i];
+			var value = b.subset(math.index(i,0));
+			solution.subset(math.index(index),value);
+		}
+		return solution.valueOf();
 	};
 
-	//TODOing
 	this.getImage = function(){
 		var size = that.st.size();
 		var image = that.st.subset(math.index(0,size[1]-1));
