@@ -253,12 +253,12 @@ function SimplexTable(){
 
 	this.isGreatTable = function(){
 		
-		return false;
+		return true;
 	};
 
 	this.hasVirtualVariableOnBase = function(){
 		if(that.virtualVariables.length == 0) return false;
-		return true;
+		return false;
 	};
 
 	this.variableToInBase = function(){
