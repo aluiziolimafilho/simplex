@@ -268,7 +268,6 @@ function SimplexTable(lpp){
 		var limit = size[1] -1;
 		var variables = math.ones(limit);
 		var costs = that.st.subset(math.index(0,[0,limit]));
-		console.log(costs);
 		var getIn = null;
 		var leastCost = null;
 
@@ -292,8 +291,6 @@ function SimplexTable(lpp){
 	};
 
 	this.varialbeToOutBase = function(vIn){
-		var toOut = math.ones(that.variablesInBase.length);
-		toOut = math.multiply(-1,toOut);
 		var size = that.st.size();
 		var getOut = null;
 		var minimum = null;
@@ -320,15 +317,27 @@ function SimplexTable(lpp){
 		else return false;
 	};
 
-	//TODO
 	var makePivoting = function(vIn, vOut){
-		var pos = null;
-		for(var i=0; i<that.variablesInBase.length; i++){
-			if(vOut == that.variablesInBase[i]){
-				pos = i;
-				break;
-			}
+		var size = that.st.size();
+		var pos = vOut+1;
+
+		var lineOut = that.st.subset(math.index(pos,[0, size[1]]));
+		var baseValue = lineOut.subset(math.index(0,vIn));
+
+		for(var i=0; i<size[0]; i++){
+			if(i == pos) continue;
+
+			var currentLine = that.st.subset(math.index(i,[0,size[1]]));
+			var value = that.st.subset(math.index(i,vIn));
+			value = -1*(value/baseValue);
+
+			var currentLineOut = math.multiply(value,lineOut);
+			var newLine = math.add(currentLine, currentLineOut);
+			that.st.subset(math.index(i,[0,size[1]]), newLine);
 		}
+	
+		var newLineOut = math.multiply(1/baseValue,lineOut);
+		that.st.subset(math.index(pos,[0,size[1]]), newLineOut);
 	};
 
 	this.nextTable = function(){
@@ -337,13 +346,13 @@ function SimplexTable(lpp){
 		for(var i=0; i<that.variablesInBase.length; i++){
 			if(vOut == that.variablesInBase[i]){
 				that.variablesInBase[i] = vIn;
+				vOut = i;
 				break;
 			}
 		}
 		makePivoting(vIn, vOut);
 	};
 
-	//TODOing
 	this.removeVirtualVariables = function(){
 		if(that.virtualVariables.length == 0) return;
 		if(that.hasVirtualVariableOnBase()) return;
@@ -352,10 +361,8 @@ function SimplexTable(lpp){
 		var b = that.st.subset(math.index([1,size[0]],size[1]-1));
 		var newSt = that.st.subset(math.index([1,size[0]],[0,limit]));
 		newSt = math.concat(newSt,b);
-		console.log(newSt);
 		that.virtualVariables = [];
-		newSt = setCostLine(that.lpp,newSt);
-		console.log(newSt);
+		that.st = setCostLine(that.lpp,newSt);
 	};
 
 	this.getSolution = function(){

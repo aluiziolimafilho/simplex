@@ -34,11 +34,12 @@
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
 
-		/*var simplex = new Simplex(lpp);
+		var simplex = new Simplex(lpp);
 		simplex.calculateSimplex2Fases();
-		dm.putSimplex(simplex);*/
-
-		var st = new SimplexTable(lpp);
-		st.transformFromLPPToSimplexTable();
+		console.log(simplex.getStepsFirstFase());
+		console.log(simplex.getStepsSecondFase());
+		console.log(simplex.getSolution());
+		//dm.putSimplex(simplex);
+		
 	});
 })();
