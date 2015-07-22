@@ -251,24 +251,31 @@ function SimplexTable(){
 		that.st = setCostLine(lpp,constraintTable);
 	};
 
-	this.isGreatTable = function(){
-		
-		return true;
-	};
-
+	//TODO
 	this.hasVirtualVariableOnBase = function(){
 		if(that.virtualVariables.length == 0) return false;
+		
 		return false;
 	};
 
+	//TODO
 	this.variableToInBase = function(){
-		return 0;
+		return null;
 	};
 
+	//TODO
 	this.varialbeToOutBase = function(){
-		return 0;
+		return null;
 	};
 
+	this.isGreatTable = function(){
+		var vIn = that.variableToInBase();
+		var vOut = that.varialbeToOutBase();
+		if(vIn == null || vOut == null) return true;
+		else return false;
+	};
+
+	//TODO
 	var makePivoting = function(vIn, vOut){
 
 	};
@@ -276,17 +283,26 @@ function SimplexTable(){
 	this.nextTable = function(){
 		var vIn = that.variableToInBase();
 		var vOut = that.varialbeToOutBase();
+		for(var i=0; i<that.variablesInBase.length; i++){
+			if(vOut == that.variablesInBase[i]){
+				that.variablesInBase[i] = vIn;
+				break;
+			}
+		}
 		makePivoting(vIn, vOut);
 	};
 
+	//TODO
 	this.removeVirtualVariables = function(){
 		if(that.virtualVariables.length == 0) return;
 	};
 
+	//TODO
 	this.getSolution = function(){
 		return [];
 	};
 
+	//TODO
 	this.getImage = function(){
 		return 0;
 	};

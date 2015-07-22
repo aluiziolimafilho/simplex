@@ -96,6 +96,7 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		}
 	};
 
+	//TODO
 	this.putSimplex = function(simplex){
 
 	};
