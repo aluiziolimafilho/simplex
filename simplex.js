@@ -64,7 +64,7 @@ function LPP(){
 	};
 }
 
-function SimplexTable(){
+function SimplexTable(lpp){
 
 	this.variablesInBase = []; // lista de índices das variáveis dentro da base.
 	//this.variablesOutBase = []; // lista de índices das variáveis fora da base.
@@ -72,7 +72,7 @@ function SimplexTable(){
 	this.slackVariables = []; // aqui fica uma lista dos indices das variaveis de folga.
 	this.virtualVariables = []; // aqui fica uma lista dos indices das variaveis virtuais.
 	this.st = math.matrix(); // st = simplex table.
-
+	this.lpp = lpp;
 	var that = this;
 
 	// função responsável por transforma a restrições de forma adequada para o simplex tabular.
@@ -242,13 +242,13 @@ function SimplexTable(){
 		return constraintTable;
 	}
 
-	this.transformFromLPPToSimplexTable = function(lpp){
-		var constraintTable = getConstraintTable(lpp);
+	this.transformFromLPPToSimplexTable = function(){
+		var constraintTable = getConstraintTable(that.lpp);
 		setVirtualVariables(constraintTable);
 		constraintTable = setVirtualColumn(constraintTable);
-		constraintTable = setBColumn(lpp,constraintTable);
+		constraintTable = setBColumn(that.lpp,constraintTable);
 
-		that.st = setCostLine(lpp,constraintTable);
+		that.st = setCostLine(that.lpp,constraintTable);
 	};
 
 	this.hasVirtualVariableOnBase = function(){
@@ -297,11 +297,19 @@ function SimplexTable(){
 		makePivoting(vIn, vOut);
 	};
 
-	//TODO
+	//TODOing
 	this.removeVirtualVariables = function(){
 		if(that.virtualVariables.length == 0) return;
-
+		if(that.hasVirtualVariableOnBase()) return;
+		var size = that.st.size();
+		var limit = size[1] -1 - that.virtualVariables.length;
+		var b = that.st.subset(math.index([1,size[0]],size[1]-1));
+		var newSt = that.st.subset(math.index([1,size[0]],[0,limit]));
+		newSt = math.concat(newSt,b);
+		console.log(newSt);
 		that.virtualVariables = [];
+		newSt = setCostLine(that.lpp,newSt);
+		console.log(newSt);
 	};
 
 	this.getSolution = function(){

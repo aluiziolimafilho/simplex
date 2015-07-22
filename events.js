@@ -38,7 +38,7 @@
 		simplex.calculateSimplex2Fases();
 		dm.putSimplex(simplex);*/
 
-		var st = new SimplexTable();
-		st.transformFromLPPToSimplexTable(lpp);
+		var st = new SimplexTable(lpp);
+		st.transformFromLPPToSimplexTable();
 	});
 })();
