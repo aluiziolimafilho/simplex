@@ -124,14 +124,93 @@ function SimplexTable(){
 
 	};
 
-	// função reponsável por gerar os custos para o simplex tabular.
-	var getCostLine = function(lpp){
-		
+	var isUnity = function(constraintTable,column){
+		var count = 0;
+		var ones = 0;
+		var pos = -1;
+		var size = constraintTable.size();
+		var lines = size[0];
+		for(var i=0; i <lines; i++){
+			var value = constraintTable.subset(math.index(i,column));
+			if(value != 0) count++;
+			if(value == 1){
+				ones++;
+				pos = i;
+			}
+		}
+		if(count == 1 && ones == 1) return pos;
+		else return null;
+	}
+
+	// função reponsável por descobrir as variaveis virtuais.
+	var setVirtualVariables = function(constraintTable){
+		var size = constraintTable.size();
+		var identity = math.zeros(size[0]);
+		var size = constraintTable.size();
+		var countVirtual = size[1];
+
+		for(var i=0; i<that.slackVariables.length; i++){
+			var index = that.slackVariables[i];
+			var unit = isUnity(constraintTable,index);
+			if(unit != null){
+				identity.subset(math.index(unit),index);
+			}
+		}
+
+		var basics = identity.map(function(value,index,matrix){
+			if(value == 0){
+				value = countVirtual;
+				that.virtualVariables.push(value);
+				countVirtual++;
+			}
+			return value;
+		});
+
+		that.variablesInBase = basics.valueOf();
 	};
+
+	var setVirtualColumn = function(constraintTable){
+		if(that.virtualVariables.length == 0) return constraintTable;
+
+		var size = constraintTable.size();
+
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var index = that.variablesInBase[i];
+			if(index >= size[1]){ // se index for maior ou igual ao número de colunas da tabela então index é uma variável virtual.
+				var column = [];
+				for(var j=0; j<size[0]; j++){
+					if(i==j) column.push([1]);
+					else column.push([0]);
+				}
+				column = math.matrix(column);
+				constraintTable = math.concat(constraintTable, column);
+			}
+		}
+
+		return constraintTable;
+	};
+
+	var setBColumn = function(lpp,constraintTable){
+		
+		var listB = [];
+		for(var i=0; i<lpp.getNumberOfLines(); i++){
+			var constraint = lpp.getConstraint(i);
+			listB.push([constraint.b]);
+		}
+		var b = math.matrix(listB);
+		constraintTable = math.concat(constraintTable,b);
+		return constraintTable;
+	}; 
 
 	this.transformFromLPPToSimplexTable = function(lpp){
 		var constraintTable = getConstraintTable(lpp);
-		var costLine = getCostLine(lpp);
+		setVirtualVariables(constraintTable);
+		constraintTable = setVirtualColumn(constraintTable);
+		constraintTable = setBColumn(lpp,constraintTable);
+
+		console.log(constraintTable);
+		console.log(that.variablesInBase);
+		console.log(that.virtualVariables);
 	};
 }
 
