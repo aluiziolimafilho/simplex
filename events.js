@@ -35,9 +35,6 @@
 
 		var simplex = new Simplex(lpp);
 		simplex.calculateSimplex2Fases();
-		console.log(simplex.getSolution());
-		console.log(simplex.getSolution().getSolution());
-		console.log(simplex.getSolution().getImage());
 		dm.putSimplex(simplex);
 		
 	});

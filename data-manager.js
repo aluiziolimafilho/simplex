@@ -96,8 +96,57 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		}
 	};
 
-	//TODO
-	this.putSimplex = function(simplex){
+	var createSimplexTableHTML = function(simplex, name, number){
+		var table = simplex.getTable();
+		var size = table.size();
+		var variables = simplex.getVariablesInBase();
 
+		var element = '<div class="panel panel-info">';
+		element += '<div class="panel-heading toggler" data-target="#'+name+number+'">';
+		element += '<h4 class="panel-title">'+name+' '+number+'</h4>';
+		element += '</div>';
+		element += '<div id="'+name+number+'" class="panel-body toggler-target">';
+		element += '<table class="table">';
+		element += '<thead><tr>';
+		element += '<th>base</th>';
+	
+		for(var i=1; i<size[1]; i++){
+			element += '<th>x'+i+'</th>';
+		}
+
+		element += '<th>RHS</th>';
+		element += '</tr></thead>';
+		element += '<tbody>';
+
+		for(var i=0; i<size[0]; i++){
+			element += '<tr>';
+			if(i>0) element += '<td>x'+(variables[i-1]+1)+'</td>';
+			else element += '<td>costs</td>';
+
+			for(var j=0; j<size[1]; j++){
+				var value = table.subset(math.index(i,j));
+				element += '<td>'+math.round(value,3)+'</td>';
+			}
+			element += '</tr>';
+		}
+
+		element += '</tbody>';
+		element += '</table>';
+		element += '</div>';
+		element += '</div>';
+
+		return element;
+	};
+
+	//TODOing
+	this.putSimplex = function(simplex){
+		var $solutions = $('#solutions');
+		var $steps = $('#steps');
+
+		$steps.empty();
+		$solutions.empty();
+
+		var element = createSimplexTableHTML(simplex.getSolution(), "solution", "1");
+		$solutions.append(element);
 	};
 }

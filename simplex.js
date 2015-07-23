@@ -68,7 +68,14 @@ function SimplexTable(lpp){
 	this.lpp = lpp;
 	var that = this;
 
-	// função responsável por transforma a restrições de forma adequada para o simplex tabular.
+	this.getTable = function(){
+		return that.st;
+	};
+
+	this.getVariablesInBase = function(){
+		return that.variablesInBase;
+	};
+
 	var getConstraintTable = function(lpp){
 		var listOfSlack = [];
 		var numberOfSlacks = 0;
