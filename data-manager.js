@@ -138,18 +138,31 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		return element;
 	};
 
-	//TODOing
-	this.putSimplex = function(simplex){
-		var $solutions = $('#solutions');
-		var $steps = $('#steps');
+	this.putSolution = function(simplex, number){
+		if(simplex == null) return;
 
-		$steps.empty();
+		var $solutions = $('#solutions');
+
 		$solutions.empty();
 
-		var element = createSimplexTableHTML(simplex.getSolution(), "solution", "1");
+		var element = createSimplexTableHTML(simplex, "solution", number);
 		$solutions.append(element);
 
-		$("#solution_block1").click(function(){
+		$("#solution_block"+number).click(function(){
+			var target = $(this).attr("data-target");
+			$(target).fadeToggle();
+		});
+	};
+
+	this.putStep = function(simplex,number){
+		if(simplex == null) return;
+
+		var $steps = $('#steps');
+
+		var element = createSimplexTableHTML(simplex, "step", number);
+		$steps.append(element);
+
+		$("#step_block"+number).click(function(){
 			var target = $(this).attr("data-target");
 			$(target).fadeToggle();
 		});

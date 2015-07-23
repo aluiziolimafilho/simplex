@@ -430,6 +430,7 @@ function Simplex(lpp){
 	this.lpp = lpp; // objeto que representa o ppl de acordo com a classe definida acima;
 	this.solution = null;
 	this.currentStep = null;
+	this.step = 0;
 	var that = this;
 
 	this.calculateSimplex2Fases = function(){
@@ -450,11 +451,13 @@ function Simplex(lpp){
 		if(that.currentStep == null){
 			that.currentStep = new SimplexTable(that.lpp);
 			that.currentStep.transformFromLPPToSimplexTable();
+			that.step++;
 			return that.currentStep;
 		}
 
 		if(that.currentStep.hasVirtualVariableOnBase()){
 			that.currentStep.nextTable();
+			that.step++;
 			return that.currentStep;
 		}
 		else{
@@ -464,25 +467,32 @@ function Simplex(lpp){
 
 	this.nextStepSecondFase = function(){
 		if(that.currentStep == null) return null;
-		if(that.currentStep.hasVirtualVariableOnBase()) return null;
-		
+		if(that.currentStep.hasVirtualVariableOnBase()) return null;		
+
 		if(that.currentStep.hasVirtualVariableOnTable()){
 			that.currentStep.removeVirtualVariables();
+			that.step++;
 			return that.currentStep;
 		}
 
 		if(that.currentStep.isGreatTable()) return null;
 		else{
 			that.currentStep.nextTable();
+			that.step++;
 			return that.currentStep;
 		}
 	};
 
 	this.resetStepByStep = function(){
 		that.currentStep = null;
+		that.step = 0;
 	};
 
 	this.getSolution = function(){
 		return that.solution;
+	};
+
+	this.getStep = function(){
+		return that.step;
 	};
 }

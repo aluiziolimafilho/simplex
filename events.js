@@ -9,6 +9,8 @@
 	firstLPP.createConstraint([1,4],'>',4);
 	dm.putLPP(firstLPP);
 
+	var simplex = null;
+
 	$("#add_column_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		gm.addColumn();
@@ -33,11 +35,30 @@
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
 		$('#solutions').empty();
+		$('#steps').empty();
 
-		var simplex = new Simplex(lpp);
-		simplex.calculateSimplex2Fases();
-		dm.putSimplex(simplex);
+		var sp = new Simplex(lpp);
+		sp.calculateSimplex2Fases();
+		simplex = sp;
+		dm.putSolution(sp.getSolution(),1);
 		
+	});
+
+	$("#next_solution").on('click',function(){
+
+	});
+
+	$("#next_step").on('click',function(){
+		if(simplex == null){
+			$('#steps').empty();
+			return;
+		}
+
+		var result = simplex.nextStepFirstFase();
+		if(result == null){
+			result = simplex.nextStepSecondFase();
+		}
+		dm.putStep(result, simplex.getStep());
 	});
 
 	$(".toggler").click(function(){
