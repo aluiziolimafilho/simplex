@@ -42,6 +42,7 @@
 
 		var sp = new Simplex(lpp);
 		sp.calculateSimplex2Fases();
+		gm.putAlertMessage("solve_msg","Problem solved.","success");
 		simplex = sp;
 		dm.putSolution(sp.getSolution(),1);
 		
@@ -66,6 +67,8 @@
 			}
 			result = simplex.nextStepSecondFase();
 		}
+		if(result == null) gm.putAlertMessage("next_step_msg","End of steps.","warning");
+
 		dm.putStep(result, simplex.getStep());
 	});
 

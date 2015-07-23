@@ -50,9 +50,8 @@
 						</fieldset>
 					</div>
 					<div class="col-md-4">
-						<p>
-							<button id="calculate_simplex_btn" class="btn btn-info btn-block">Solve LPP</button>
-						</p>
+						<div class="col-md-6"><p><button id="calculate_simplex_btn" class="btn btn-info btn-block">Solve LPP</button></p></div>
+						<div id="solve_msg" class="col-md-6"></div>
 					</div>
 				</div>
 				<div class="row">
@@ -119,7 +118,10 @@
 						<div id="solutions" class="row">
 						</div>
 						<div class="row">
-							<button id="next_solution" class="btn btn-info">Next Solution</button>
+							<div class="col-md-2">
+								<p><button id="next_solution" class="btn btn-info">Next Solution</button></p>
+							</div>
+							<div id="next_solution_msg" class="col-md-10"></div>
 						</div>
 					</div>
 				</div>
@@ -135,7 +137,10 @@
 						<div id="steps" class="row">
 						</div>
 						<div class="row">
-							<button id="next_step" class="btn btn-info">Next Step</button>
+							<div class="col-md-2">
+								<p><button id="next_step" class="btn btn-info">Next Step</button></p>
+							</div>
+							<div id="next_step_msg" class="col-md-10"></div>
 						</div>
 					</div>
 				</div>
