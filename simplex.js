@@ -52,12 +52,8 @@ function LPP(){
 			valuesIn = ctr.valueOf();
 		}
 		var constraint = {values: valuesIn, sign: signIn, b: bIn};
-		that.addConstraint(constraint);
+		that.constraints.push(constraint);
 		
-	};
-
-	this.addConstraint = function(constraintIn){
-		that.constraints.push(constraintIn);
 	};
 }
 
