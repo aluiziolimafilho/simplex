@@ -36,10 +36,10 @@
 
 		var simplex = new Simplex(lpp);
 		simplex.calculateSimplex2Fases();
-		console.log(simplex.getStepsFirstFase());
-		console.log(simplex.getStepsSecondFase());
 		console.log(simplex.getSolution());
-		//dm.putSimplex(simplex);
+		console.log(simplex.getSolution().getSolution());
+		console.log(simplex.getSolution().getImage());
+		dm.putSimplex(simplex);
 		
 	});
 })();

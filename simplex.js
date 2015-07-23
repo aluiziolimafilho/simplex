@@ -291,6 +291,8 @@ function SimplexTable(lpp){
 	};
 
 	this.varialbeToOutBase = function(vIn){
+		if(vIn == null) return null;
+
 		var size = that.st.size();
 		var getOut = null;
 		var minimum = null;
@@ -383,30 +385,32 @@ function SimplexTable(lpp){
 		var image = that.st.subset(math.index(0,size[1]-1));
 		return image;
 	};
+
+	this.clone = function(){
+		var newSt = new SimplexTable(that.lpp);
+		newSt.variablesInBase = that.variablesInBase.slice();
+		newSt.slackVariables = that.slackVariables.slice();
+		newSt.virtualVariables = that.virtualVariables.slice();
+		newSt.st = that.st.clone();
+
+		return newSt;
+	};
 }
 
 function Simplex(lpp){
 	this.lpp = lpp; // objeto que representa o ppl de acordo com a classe definida acima;
-
-	this.firstFase = []; // lista das tabelas de cada iteração do simplex da primeira fase.
-	this.secondFase = []; // lista das tabelas de cada iteração do simplex da segunda fase.
 	this.solution = null;
-
 	var that = this;
 
 	this.calculateSimplex2Fases = function(){
 		var table = new SimplexTable(that.lpp);
 		table.transformFromLPPToSimplexTable();
-		that.firstFase.push(table);
 		while(table.hasVirtualVariableOnBase()){
 			table.nextTable();
-			that.firstFase.push(table);
 		}
 		table.removeVirtualVariables();
-		that.secondFase.push(table);
 		while(!table.isGreatTable()){
 			table.nextTable();
-			that.secondFase.push(table);
 		}
 		that.solution = table;
 		return table;
@@ -414,13 +418,5 @@ function Simplex(lpp){
 
 	this.getSolution = function(){
 		return that.solution;
-	};
-
-	this.getStepsFirstFase = function(){
-		return that.firstFase;
-	};
-
-	this.getStepsSecondFase = function(){
-		return that.firstFase;
 	};
 }
