@@ -32,6 +32,7 @@
 	$("#calculate_simplex_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
+		$('#solutions').empty();
 
 		var simplex = new Simplex(lpp);
 		simplex.calculateSimplex2Fases();

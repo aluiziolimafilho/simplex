@@ -102,7 +102,7 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		var variables = simplex.getVariablesInBase();
 
 		var element = '<div class="panel panel-info">';
-		element += '<div class="panel-heading toggler" data-target="#'+name+number+'">';
+		element += '<div id="'+name+'_block'+number+'" class="panel-heading" data-target="#'+name+number+'">';
 		element += '<h4 class="panel-title">'+name+' '+number+'</h4>';
 		element += '</div>';
 		element += '<div id="'+name+number+'" class="panel-body toggler-target">';
@@ -148,5 +148,10 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 
 		var element = createSimplexTableHTML(simplex.getSolution(), "solution", "1");
 		$solutions.append(element);
+
+		$("#solution_block1").click(function(){
+			var target = $(this).attr("data-target");
+			$(target).fadeToggle();
+		});
 	};
 }
