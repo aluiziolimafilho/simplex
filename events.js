@@ -9,6 +9,8 @@
 	firstLPP.createConstraint([1,4],'>',4);
 	dm.putLPP(firstLPP);
 
+	var firstFase = true;
+
 	var simplex = null;
 
 	$("#add_column_btn").on('click',function(e){
@@ -34,6 +36,7 @@
 	$("#calculate_simplex_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
+		firstFase = true;
 		$('#solutions').empty();
 		$('#steps').empty();
 
@@ -51,11 +54,16 @@
 	$("#next_step").on('click',function(){
 		if(simplex == null){
 			$('#steps').empty();
+			firstFase = true;
 			return;
 		}
 
 		var result = simplex.nextStepFirstFase();
 		if(result == null){
+			if(firstFase){
+				gm.endOfFirstFaseMessage();				
+				firstFase = false;
+			}
 			result = simplex.nextStepSecondFase();
 		}
 		dm.putStep(result, simplex.getStep());

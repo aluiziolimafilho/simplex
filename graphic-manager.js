@@ -141,4 +141,15 @@ function GraphicManager(){
 		this.putMColumns(columns);
 		this.putNLines(lines);
 	};
+
+	this.endOfFirstFaseMessage = function(){
+		var $step = $("#steps");
+
+		var element = '<div class="row">';
+		element += '<div class="alert alert-success">';
+		element += '<strong>End of first fase.<strong>'
+		element += '</div>';
+		element += '</div>';
+		$step.append(element);
+	};
 }
