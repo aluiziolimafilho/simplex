@@ -41,4 +41,9 @@
 		dm.putSimplex(simplex);
 		
 	});
+
+	$(".toggler").click(function(){
+		var target = $(this).attr("data-target");
+		$(target).fadeToggle();
+	});
 })();

@@ -6,110 +6,115 @@
 		<link rel="stylesheet" href="libs/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
 	</head>
 	<body>
-	<div class="container">
-		<div class="row">
-			<div class="page-header">
-				<h1>Simplex, supposedly easy</h1>
-			</div>
-		</div>
-		<div class="row">
+		<div class="container">
 			<div class="row">
-				<div class="row">
-					<div class="page-header">
-						<h3>Tools</h3>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<fieldset>
-						<legend>Variables</legend>
-						<div class="col-md-6">
-							<p>
-								<button id="add_column_btn" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></span></button>
-							</p>
-						</div>
-						<div class="col-md-6">
-							<p>
-								<button id="remove_column_btn" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-minus"></span></button>
-							</p>
-						</div>
-					</fieldset>
-				</div>
-				<div class="col-md-4">
-					<fieldset>
-						<legend>Constraints</legend>
-						<div class="col-md-6">
-							<p>
-								<button id="add_line_btn" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-plus"></button>
-							</p>
-						</div>
-						<div class="col-md-6">
-							<p>
-								<button id="remove_line_btn" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-minus"></button>
-							</p>
-						</div>
-					</fieldset>
-				</div>
-				<div class="col-md-4">
-					<p>
-						<button id="calculate_simplex_btn" class="btn btn-primary btn-block">Solve LPP</button>
-					</p>
+				<div class="page-header">
+					<h1>Simplex, supposedly easy</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="row">
-					<div class="page-header">
-						<h3>Linear Programming Problem</h3>
+					<div class="row">
+						<div class="page-header">
+							<h3>Tools</h3>
+						</div>
 					</div>
-				</div>
-				<div class="row bg-primary">
-					<div class="col-md-12"><h4>Function</h4></div>
+					<div class="col-md-4">
+						<fieldset>
+							<legend>Variables</legend>
+							<div class="col-md-6">
+								<p>
+									<button id="add_column_btn" class="btn btn-info btn-block"><span class="glyphicon glyphicon-plus"></span></button>
+								</p>
+							</div>
+							<div class="col-md-6">
+								<p>
+									<button id="remove_column_btn" class="btn btn-info btn-block"><span class="glyphicon glyphicon-minus"></span></button>
+								</p>
+							</div>
+						</fieldset>
+					</div>
+					<div class="col-md-4">
+						<fieldset>
+							<legend>Constraints</legend>
+							<div class="col-md-6">
+								<p>
+									<button id="add_line_btn" class="btn btn-info btn-block"><span class="glyphicon glyphicon-plus"></button>
+								</p>
+							</div>
+							<div class="col-md-6">
+								<p>
+									<button id="remove_line_btn" class="btn btn-info btn-block"><span class="glyphicon glyphicon-minus"></button>
+								</p>
+							</div>
+						</fieldset>
+					</div>
+					<div class="col-md-4">
+						<p>
+							<button id="calculate_simplex_btn" class="btn btn-info btn-block">Solve LPP</button>
+						</p>
+					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-2">
-						<table class="table">
-							<tr>
-								<th>Type</th>
-							</tr>
-							<tr>
-								<td>
-									<select id="kind_of_function" class="form-control">
-										<option value="min">min</option>
-										<option value="max">max</option>
-									</select>
-								</td>
-							</tr>
-						</table>
+					<div class="row">
+						<div class="page-header">
+							<h3>Linear Programming Problem</h3>
+						</div>
 					</div>
-					<div class="col-md-10">
-						<table class="table">
-							<tr id="function_head">
-							</tr>
-							<tr id="function_variables">
-							</tr>
-						</table>
+					<div class="row panel panel-info">
+						<div class="panel-heading toggler" data-target="#function">
+							<h4 class="panel-title">Function</h4>
+						</div>
+						<div id="function" class="panel-body toggler-target">
+							<div class="col-md-2">
+								<table class="table">
+									<tr>
+										<th>Type</th>
+									</tr>
+									<tr>
+										<td>
+											<select id="kind_of_function" class="form-control">
+												<option value="min">min</option>
+												<option value="max">max</option>
+											</select>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-md-10">
+								<table class="table">
+									<tr id="function_head">
+									</tr>
+									<tr id="function_variables">
+									</tr>
+								</table>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="row bg-primary">
-					<div class="col-md-12"><h4>Constraints</h4></div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<table class="table">
-							<thead id="constraints_head">
-							</thead>
-							<tbody id="constraints">
-							</tbody>
-						</table>
+					<div class="row panel panel-info">
+						<div class="panel-heading toggler" data-target="#constraints_body">
+							<h4 class="panel-title">Constraints</h4>
+						</div>
+						<div id="constraints_body" class="panel-body toggler-target">
+							<div class="col-md-12">
+								<table class="table">
+									<thead id="constraints_head">
+									</thead>
+									<tbody id="constraints">
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<script src="libs/jquery-2.1.4/jquery.min.js"></script>
-	<script src="libs/mathjs/math.js"></script>
-	<script src="simplex.js"></script>
-	<script src="graphic-manager.js"></script>
-	<script src="data-manager.js"></script>
-	<script src="events.js"></script>
+		<script src="libs/jquery-2.1.4/jquery.min.js"></script>
+		<script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
+		<script src="libs/mathjs/math.js"></script>
+		<script src="simplex.js"></script>
+		<script src="graphic-manager.js"></script>
+		<script src="data-manager.js"></script>
+		<script src="events.js"></script>
 	</body>
 </html>
