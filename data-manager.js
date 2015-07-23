@@ -101,6 +101,9 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		var size = table.size();
 		var variables = simplex.getVariablesInBase();
 
+		var vIn = simplex.variableToInBase();
+		var vOut = simplex.varialbeToOutBase(vIn);
+
 		var element = '<div class="panel panel-info">';
 		element += '<div id="'+name+'_block'+number+'" class="panel-heading" data-target="#'+name+number+'">';
 		element += '<h4 class="panel-title">'+name+' '+number+'</h4>';
@@ -111,7 +114,12 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		element += '<th>base</th>';
 	
 		for(var i=1; i<size[1]; i++){
-			element += '<th>x'+i+'</th>';
+			if(vIn != null && vIn+1 == i ){
+				element += '<th class="bg-primary">x'+i+'</th>';
+			}
+			else{
+				element += '<th>x'+i+'</th>';
+			}
 		}
 
 		element += '<th>RHS</th>';
@@ -120,7 +128,13 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 
 		for(var i=0; i<size[0]; i++){
 			element += '<tr>';
-			if(i>0) element += '<td>x'+(variables[i-1]+1)+'</td>';
+			if(i>0){
+				if(vOut != null && vOut == variables[i-1]){
+					element += '<td class="bg-danger">x'+(variables[i-1]+1)+'</td>';
+				}
+				else
+					element += '<td>x'+(variables[i-1]+1)+'</td>';
+			}
 			else element += '<td>costs</td>';
 
 			for(var j=0; j<size[1]; j++){
