@@ -50,6 +50,14 @@ function LPP(){
 	};
 
 	this.createConstraint = function(valuesIn, signIn, bIn){
+		if(bIn < 0){ // tratamento para o caso de b ser menor que zero, então multiplica a restrição por -1.
+			bIn *= -1;
+			if(signIn == '>') signIn = '<';
+			else if(signIn == '<') signIn = '>';
+			var ctr = math.matrix(valuesIn);
+			ctr = math.multiply(-1,ctr);
+			valuesIn = ctr.valueOf();
+		}
 		var constraint = {values: valuesIn, sign: signIn, b: bIn};
 		that.addConstraint(constraint);
 		
