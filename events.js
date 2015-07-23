@@ -49,11 +49,12 @@
 	});
 
 	$("#next_solution").on('click',function(){
-
+		gm.putAlertMessage("next_solution_msg","It doesn't work yet.","info");
 	});
 
 	$("#next_step").on('click',function(){
 		if(simplex == null){
+			gm.putAlertMessage("next_step_msg","First press the button solve lpp.","warning");
 			$('#steps').empty();
 			firstFase = true;
 			return;
@@ -67,7 +68,7 @@
 			}
 			result = simplex.nextStepSecondFase();
 		}
-		if(result == null) gm.putAlertMessage("next_step_msg","End of steps.","warning");
+		if(result == null) gm.putAlertMessage("next_step_msg","End of steps.","info");
 
 		dm.putStep(result, simplex.getStep());
 	});
