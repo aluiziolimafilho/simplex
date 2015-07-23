@@ -251,6 +251,11 @@ function SimplexTable(lpp){
 		that.st = setCostLine(that.lpp,constraintTable);
 	};
 
+	this.hasVirtualVariableOnTable = function(){
+		if(that.virtualVariables.length == 0) return false;
+		else return true;
+	};
+
 	this.hasVirtualVariableOnBase = function(){
 		if(that.virtualVariables.length == 0) return false;
 		var size = that.st.size();
@@ -386,6 +391,30 @@ function SimplexTable(lpp){
 		return image;
 	};
 
+	this.isEqualSolution = function(simplex){
+		if(simplex == null) return false;
+
+		var solution1 = that.getSolution();
+		var solution2 = simplex.getSolution();
+		if(solution1.length != solution2.length) return false;
+
+		for(var i=0; i<solution1.length; i++){
+			if(solution1[i] != solution2[i]) return false;
+		}
+
+		return true;
+	};
+
+	//TODO
+	this.getNextSolution = function(){
+
+	};
+
+	//TODO
+	this.getTypeOfSolution = function(){
+
+	};
+
 	this.clone = function(){
 		var newSt = new SimplexTable(that.lpp);
 		newSt.variablesInBase = that.variablesInBase.slice();
@@ -400,6 +429,7 @@ function SimplexTable(lpp){
 function Simplex(lpp){
 	this.lpp = lpp; // objeto que representa o ppl de acordo com a classe definida acima;
 	this.solution = null;
+	this.currentStep = null;
 	var that = this;
 
 	this.calculateSimplex2Fases = function(){
@@ -414,6 +444,42 @@ function Simplex(lpp){
 		}
 		that.solution = table;
 		return table;
+	};
+
+	this.nextStepFirstFase = function(){
+		if(that.currentStep == null){
+			that.currentStep = new SimplexTable(that.lpp);
+			that.currentStep.transformFromLPPToSimplexTable();
+			return that.currentStep;
+		}
+
+		if(that.currentStep.hasVirtualVariableOnBase()){
+			that.currentStep.nextTable();
+			return that.currentStep;
+		}
+		else{
+			return null;
+		}
+	};
+
+	this.nextStepSecondFase = function(){
+		if(that.currentStep == null) return null;
+		if(that.currentStep.hasVirtualVariableOnBase()) return null;
+		
+		if(that.currentStep.hasVirtualVariableOnTable()){
+			that.currentStep.removeVirtualVariables();
+			return that.currentStep;
+		}
+
+		if(that.currentStep.isGreatTable()) return null;
+		else{
+			that.currentStep.nextTable();
+			return that.currentStep;
+		}
+	};
+
+	this.resetStepByStep = function(){
+		that.currentStep = null;
 	};
 
 	this.getSolution = function(){
