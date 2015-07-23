@@ -32,9 +32,9 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 
 	this.getLPP = function(){
 		var lpp = new LPP();
-		lpp.setType(that.getKindOfFunction());
+		var type = that.getKindOfFunction();
 
-		lpp.addVectorC(that.getVectorC());
+		lpp.setFunction(type, that.getVectorC());
 
 		for(var i=0; i<gm.numberOfConstraints; i++){
 			var list = [];

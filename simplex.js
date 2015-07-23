@@ -33,20 +33,13 @@ function LPP(){
 		return that.constraints[index];
 	};
 
-	this.setType = function(type){
-		if( type != "min" && type != "max" ){
-			console.log("Error: wrong input of type. This must be 'min' or 'max'.");
-			return;
-		}
-		that.type = type;
-	};
-
-	this.addC = function(c){
-		that.c.push(c);
-	};
-
-	this.addVectorC = function(c){
+	this.setFunction = function(type, c){
 		that.c = c;
+		if(type == "max" && that.c.length > 0){
+			var first = math.matrix(that.c);
+			first = math.multiply(-1,first);
+			that.c = first.valueOf();
+		}
 	};
 
 	this.createConstraint = function(valuesIn, signIn, bIn){
@@ -65,10 +58,6 @@ function LPP(){
 
 	this.addConstraint = function(constraintIn){
 		that.constraints.push(constraintIn);
-	};
-
-	this.isValid = function(){ // testa se o PPL é válido, ou seja, testa se a estrutura está correta.
-		return true;
 	};
 }
 

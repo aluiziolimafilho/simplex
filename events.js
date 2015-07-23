@@ -2,8 +2,7 @@
 	var gm = new GraphicManager();
 	var dm = new DataManager(gm);
 	var firstLPP = new LPP();
-	firstLPP.setType("min");
-	firstLPP.addVectorC([-1,-1]);
+	firstLPP.setFunction("min",[-1,-1]);
 	firstLPP.createConstraint([3,2],'>',6);
 	firstLPP.createConstraint([4,1],'<',16);
 	firstLPP.createConstraint([-2,3],'<',6);
