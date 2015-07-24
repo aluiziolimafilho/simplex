@@ -37,6 +37,7 @@
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
 		firstFase = true;
+		$('#great_base').empty();
 		$('#solutions').empty();
 		$('#steps').empty();
 
@@ -46,6 +47,7 @@
 			gm.printTypeOfSolution("type_solution_msg", sp.getSolution().getTypeOfSolution());
 			simplex = sp;
 			dm.putSolution(sp.getSolution(),1);
+			dm.putGreatBase(sp.getGreatBase());
 		}
 		else{
 			gm.removeAlertMessage("type_solution_msg");

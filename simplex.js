@@ -528,6 +528,7 @@ function SimplexTable(lpp){
 		newSt.slackVariables = that.slackVariables.slice();
 		newSt.virtualVariables = that.virtualVariables.slice();
 		newSt.st = that.st.clone();
+		if(that.firstSolution != null) newSt.firstSolution = that.firstSolution.slice();
 
 		return newSt;
 	};
@@ -539,6 +540,7 @@ function Simplex(lpp){
 	this.currentStep = null;
 	this.step = 0;
 	this.stepSolution = 1;
+	this.greatBase = null;
 	var that = this;
 
 	this.calculateSimplex2Fases = function(){
@@ -551,11 +553,16 @@ function Simplex(lpp){
 			if(table.isImpossibleLPP()) return false;
 		}
 		table.removeVirtualVariables();
+		that.greatBase = table.clone();
 		while(!table.stopSecondFase()){
 			if(!table.nextTable()) return false;
 		}
 		that.solution = table;
 		return true;
+	};
+
+	this.getGreatBase = function(){
+		return that.greatBase;
 	};
 
 	this.nextStepFirstFase = function(){

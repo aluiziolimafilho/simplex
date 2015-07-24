@@ -152,6 +152,20 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		return element;
 	};
 
+	this.putGreatBase = function(simplex){
+		if(simplex == null) return;
+
+		var $great_base = $('#great_base');
+
+		var element = createSimplexTableHTML(simplex, "great_base", "");
+		$great_base.append(element);
+
+		$("#great_base_block"+number).click(function(){
+			var target = $(this).attr("data-target");
+			$(target).fadeToggle();
+		});
+	};
+
 	this.putSolution = function(simplex, number){
 		if(simplex == null) return;
 
