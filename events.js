@@ -56,6 +56,16 @@
 		
 	});
 
+	$("#clear_solutions_btn").on('click',function(){
+		$('#great_base').empty();
+		$('#solutions').empty();
+		$('#steps').empty();
+		gm.removeAlertMessage("type_solution_msg");
+		gm.removeAlertMessage("solve_msg");
+		gm.removeAlertMessage("next_solution_msg");
+		gm.removeAlertMessage("next_step_msg");
+	});
+
 	$("#next_solution").on('click',function(){
 		if(simplex == null){
 			gm.putAlertMessage("next_solution_msg","First press the button solve lpp.","warning");
