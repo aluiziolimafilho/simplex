@@ -161,4 +161,28 @@ function GraphicManager(){
 		$id.empty();
 		$id.append(element);
 	};
+
+	this.removeAlertMessage = function(id){
+		var $id = $("#"+id);
+		$id.empty();
+	};
+
+	this.printTypeOfSolution = function(id,type){
+		switch(type){
+			case "single":
+				that.putAlertMessage(id,"This is a single solution.","info");
+				break;
+			case "infinite_solutions":
+				that.putAlertMessage(id,"There are infinite solutions.","info");
+				break;
+			case "multiple_solutions":
+				that.putAlertMessage(id,"There are multiple solutions.","info");
+				break;
+			case "unlimited":
+				that.putAlertMessage(id,"The solution is unlimited.","info");
+				break;
+			default:
+				break;
+		}
+	};
 }

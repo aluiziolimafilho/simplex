@@ -66,6 +66,7 @@ function SimplexTable(lpp){
 	this.virtualVariables = []; // aqui fica uma lista dos indices das variaveis virtuais.
 	this.st = math.matrix(); // st = simplex table.
 	this.lpp = lpp;
+	this.firstSolution = null;
 	var that = this;
 
 	this.getTable = function(){
@@ -276,6 +277,8 @@ function SimplexTable(lpp){
 		var getIn = null;
 		var leastCost = null;
 
+		var testZero = that.firstSolution != null || that.hasVirtualVariableOnTable();
+
 		for(var i=0; i<that.variablesInBase.length; i++){
 			var index = that.variablesInBase[i];
 			variables.subset(math.index(index),0);
@@ -285,9 +288,17 @@ function SimplexTable(lpp){
 			var value = variables.subset(math.index(i));
 			if(value == 1){
 				var cost = costs.subset(math.index(0,i));
-				if(cost > 0 && ( leastCost == null || cost > leastCost )){
-					getIn = i;
-					leastCost = cost;
+				if(testZero){
+					if(cost >= 0 && ( leastCost == null || cost > leastCost )){
+						getIn = i;
+						leastCost = cost;
+					}
+				}
+				else{
+					if(cost > 0 && ( leastCost == null || cost > leastCost )){
+						getIn = i;
+						leastCost = cost;
+					}
 				}
 			}
 		}
@@ -318,9 +329,30 @@ function SimplexTable(lpp){
 	};
 
 	this.isGreatTable = function(){
+		var size = that.st.size();
+		var limit = size[1] -1;
+		var costs = that.st.subset(math.index(0,[0,limit]));
+
+		for(var i=0; i<limit; i++){
+			var value = costs.subset(math.index(0,i));
+			if(value > 0) return false;
+		}
+		
+		that.firstSolution = [];
+		return true;
+	};
+
+	this.hasMoreSolutions = function(){
 		var vIn = that.variableToInBase();
 		var vOut = that.varialbeToOutBase(vIn);
-		if(vIn == null || vOut == null) return true;
+		if( vIn == null || vOut == null ) return false;
+		else return true;
+	};
+
+	this.isImpossibleLPP = function(){
+		var vIn = that.variableToInBase();
+		var vOut = that.varialbeToOutBase(vIn);
+		if( (vIn == null || vOut == null) && that.hasVirtualVariableOnBase()) return true;
 		else return false;
 	};
 
@@ -350,6 +382,8 @@ function SimplexTable(lpp){
 	this.nextTable = function(){
 		var vIn = that.variableToInBase();
 		var vOut = that.varialbeToOutBase(vIn);
+		if( vIn == null || vOut == null ) return false;
+
 		for(var i=0; i<that.variablesInBase.length; i++){
 			if(vOut == that.variablesInBase[i]){
 				that.variablesInBase[i] = vIn;
@@ -358,6 +392,7 @@ function SimplexTable(lpp){
 			}
 		}
 		makePivoting(vIn, vOut);
+		return true;
 	};
 
 	this.removeVirtualVariables = function(){
@@ -391,11 +426,11 @@ function SimplexTable(lpp){
 		return image;
 	};
 
-	this.isEqualSolution = function(simplex){
-		if(simplex == null) return false;
+	this.currentIsEqualToFirstSolution = function(){
+		if(that.firstSolution == null) return false;
 
 		var solution1 = that.getSolution();
-		var solution2 = simplex.getSolution();
+		var solution2 = that.firstSolution;
 		if(solution1.length != solution2.length) return false;
 
 		for(var i=0; i<solution1.length; i++){
@@ -405,14 +440,86 @@ function SimplexTable(lpp){
 		return true;
 	};
 
-	//TODO
-	this.getNextSolution = function(){
-
+	this.resetNextSolutionLoop = function(){
+		if(that.firstSolution != null) that.firstSolution = [];
 	};
 
-	//TODO
-	this.getTypeOfSolution = function(){
+	this.isSingleSolution = function(){
+		var size = that.st.size();
+		var limit = size[1] -1;
+		var costs = that.st.subset(math.index(0,[0,limit]));
+		var variables = math.ones(limit);
 
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var index = that.variablesInBase[i];
+			variables.subset(math.index(index),0);
+		}
+
+		for(var i=0; i<limit; i++){
+			if(variables.subset(math.index(i)) == 1){
+				var value = costs.subset(math.index(0,i));
+				if(value >= 0) return false;
+			}
+		}
+		
+		return true;
+	};
+
+	this.isInfinite = function(vIn){
+		if(vIn == null) return false;
+		var size = that.st.size();
+
+		for(var i=0; i<that.variablesInBase.length; i++){
+			var yr = that.st.subset(math.index(i+1,vIn));
+			if(yr >= 0){
+				return false;
+			}
+		}
+		return true;
+	};
+
+	this.getNextSolution = function(){
+		if(that.firstSolution == null) return false;
+
+		if(that.firstSolution.length == 0 && that.hasMoreSolutions()){
+			that.firstSolution = that.getSolution();
+			that.nextTable();
+			return true;
+		}
+
+		if(!that.hasMoreSolutions()) return false;
+
+		if(!that.currentIsEqualToFirstSolution()){
+			that.nextTable();
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
+
+	this.getTypeOfSolution = function(){
+		if(that.isGreatTable()){
+			if(that.isSingleSolution())	return "single";
+
+			vIn = that.variableToInBase();
+			if(that.isInfinite(vIn)) return "infinite_solutions";
+			
+			if(that.variableToOutBase(vIn) != null) return "multiple_solutions";
+
+			return "error";
+		}
+		else{
+			vIn = that.variableToInBase();
+			if(that.isInfinite(vIn)) return "unlimited";
+		}
+
+		return "not_solution";
+	};
+
+	this.stopSecondFase = function(){
+		if(that.getTypeOfSolution() == "not_solution") return false;
+		else return true;
 	};
 
 	this.clone = function(){
@@ -431,20 +538,24 @@ function Simplex(lpp){
 	this.solution = null;
 	this.currentStep = null;
 	this.step = 0;
+	this.stepSolution = 1;
 	var that = this;
 
 	this.calculateSimplex2Fases = function(){
 		var table = new SimplexTable(that.lpp);
 		table.transformFromLPPToSimplexTable();
+		if(table.isImpossibleLPP()) return false;
+
 		while(table.hasVirtualVariableOnBase()){
-			table.nextTable();
+			if(!table.nextTable()) return false;
+			if(table.isImpossibleLPP()) return false;
 		}
 		table.removeVirtualVariables();
-		while(!table.isGreatTable()){
-			table.nextTable();
+		while(!table.stopSecondFase()){
+			if(!table.nextTable()) return false;
 		}
 		that.solution = table;
-		return table;
+		return true;
 	};
 
 	this.nextStepFirstFase = function(){
@@ -456,6 +567,11 @@ function Simplex(lpp){
 		}
 
 		if(that.currentStep.hasVirtualVariableOnBase()){
+			if(that.currentStep.isImpossibleLPP()){
+				that.currentStep = null;
+				that.step = 0;
+				return null;
+			}
 			that.currentStep.nextTable();
 			that.step++;
 			return that.currentStep;
@@ -475,12 +591,26 @@ function Simplex(lpp){
 			return that.currentStep;
 		}
 
-		if(that.currentStep.isGreatTable()) return null;
+		if(that.currentStep.stopSecondFase()) return null;
 		else{
 			that.currentStep.nextTable();
 			that.step++;
 			return that.currentStep;
 		}
+	};
+
+	this.getStepSolution = function(){
+		return this.stepSolution;
+	};
+
+	this.nextSolution = function(){
+		if(that.solution == null) return null;
+
+		if(that.solution.getNextSolution()){
+			this.stepSolution++;
+			return that.solution;
+		}
+		else return null;
 	};
 
 	this.resetStepByStep = function(){
@@ -496,3 +626,4 @@ function Simplex(lpp){
 		return that.step;
 	};
 }
+    

@@ -41,15 +41,32 @@
 		$('#steps').empty();
 
 		var sp = new Simplex(lpp);
-		sp.calculateSimplex2Fases();
-		gm.putAlertMessage("solve_msg","Problem solved.","success");
-		simplex = sp;
-		dm.putSolution(sp.getSolution(),1);
+		if(sp.calculateSimplex2Fases()){
+			gm.putAlertMessage("solve_msg","Problem solved.","success");
+			gm.printTypeOfSolution("type_solution_msg", sp.getSolution().getTypeOfSolution());
+			simplex = sp;
+			dm.putSolution(sp.getSolution(),1);
+		}
+		else{
+			gm.removeAlertMessage("type_solution_msg");
+			gm.putAlertMessage("solve_msg","Invalid LPP.","danger");
+		}
 		
 	});
 
 	$("#next_solution").on('click',function(){
-		gm.putAlertMessage("next_solution_msg","It doesn't work yet.","info");
+		if(simplex == null){
+			gm.putAlertMessage("next_solution_msg","First press the button solve lpp.","warning");
+			$('#solutions').empty();
+			return;
+		}
+
+		var result = simplex.nextSolution();
+		if(result == null){
+			gm.putAlertMessage("next_solution_msg","There isn't more solutions.","info");
+			return;
+		}
+		dm.putSolution(result, simplex.getStepSolution());
 	});
 
 	$("#next_step").on('click',function(){

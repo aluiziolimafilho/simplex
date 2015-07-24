@@ -157,8 +157,6 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 
 		var $solutions = $('#solutions');
 
-		$solutions.empty();
-
 		var element = createSimplexTableHTML(simplex, "solution", number);
 		$solutions.append(element);
 
