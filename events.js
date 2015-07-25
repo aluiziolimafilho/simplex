@@ -13,25 +13,35 @@
 
 	var simplex = null;
 
+	setTranslations();
+
 	$("#add_column_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		gm.addColumn();
 		dm.partialPutLPP(lpp);
+
+		setTranslations();
 	});
 	$("#remove_column_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		gm.removeColumn();
 		dm.partialPutLPP(lpp);
+
+		setTranslations();
 	});
 	$("#add_line_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		gm.addLine();
 		dm.partialPutLPP(lpp);
+	
+		setTranslations();
 	});
 	$("#remove_line_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		gm.removeLine();
 		dm.partialPutLPP(lpp);
+
+		setTranslations();
 	});
 	$("#calculate_simplex_btn").on('click',function(e){
 		var lpp = dm.getLPP();
@@ -43,7 +53,7 @@
 
 		var sp = new Simplex(lpp);
 		if(sp.calculateSimplex2Fases()){
-			gm.putAlertMessage("solve_msg","Problem solved.","success");
+			gm.putAlertMessage("solve_msg","problem_solved","success");
 			gm.printTypeOfSolution("type_solution_msg", sp.getSolution().getTypeOfSolution());
 			simplex = sp;
 			dm.putSolution(sp.getSolution(),1);
@@ -51,9 +61,10 @@
 		}
 		else{
 			gm.removeAlertMessage("type_solution_msg");
-			gm.putAlertMessage("solve_msg","Invalid LPP.","danger");
+			gm.putAlertMessage("solve_msg","invalid_lpp","danger");
 		}
 		
+		setTranslations();
 	});
 
 	$("#clear_solutions_btn").on('click',function(){
@@ -64,28 +75,35 @@
 		gm.removeAlertMessage("solve_msg");
 		gm.removeAlertMessage("next_solution_msg");
 		gm.removeAlertMessage("next_step_msg");
+
+		setTranslations();
 	});
 
 	$("#next_solution").on('click',function(){
 		if(simplex == null){
-			gm.putAlertMessage("next_solution_msg","First press the button solve lpp.","warning");
+			gm.putAlertMessage("next_solution_msg","first_press_button_solve_lpp","warning");
+			setTranslations();
 			$('#solutions').empty();
 			return;
 		}
 
 		var result = simplex.nextSolution();
 		if(result == null){
-			gm.putAlertMessage("next_solution_msg","There isn't more solutions.","info");
+			gm.putAlertMessage("next_solution_msg","there_isnt_more_solutions","info");
+			setTranslations();
 			return;
 		}
 		dm.putSolution(result, simplex.getStepSolution());
+
+		setTranslations();
 	});
 
 	$("#next_step").on('click',function(){
 		if(simplex == null){
-			gm.putAlertMessage("next_step_msg","First press the button solve lpp.","warning");
+			gm.putAlertMessage("next_step_msg","first_press_button_solve_lpp","warning");
 			$('#steps').empty();
 			firstFase = true;
+			setTranslations();
 			return;
 		}
 
@@ -97,10 +115,14 @@
 			}
 			result = simplex.nextStepSecondFase();
 		}
-		if(result == null) gm.putAlertMessage("next_step_msg","End of steps.","info");
+		if(result == null) gm.putAlertMessage("next_step_msg","end_of_steps","info");
 
 		dm.putStep(result, simplex.getStep());
+		
+		setTranslations();
 	});
+
+	$("#language").on("change",setTranslations);
 
 	$(".toggler").click(function(){
 		var target = $(this).attr("data-target");

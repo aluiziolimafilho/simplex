@@ -2,26 +2,35 @@
 <html>
 	<head>
 		<title>Simplex</title>
+		<meta charset="utf-8" />
 		<link rel="stylesheet" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css">
 		<link rel="stylesheet" href="libs/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
 	</head>
 	<body>
 		<div class="container">
 			<div class="row">
+				<div class="col-md-2 col-md-offset-10">
+					<select id="language" class="form-control">
+						<option value="en_us">English</option>
+						<option value="pt_br">Português</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
 				<div class="page-header">
-					<h1>Simplex, supposedly easy</h1>
+					<h1><translate trans="title">Simplex, supposedly easy</translate></h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="row">
 					<div class="row">
 						<div class="page-header">
-							<h3>Tools</h3>
+							<h3><translate trans="tools">Tools</translate></h3>
 						</div>
 					</div>
 					<div class="col-md-4">
 						<fieldset>
-							<legend>Variables</legend>
+							<legend><translate trans="variables">Variables</translate></legend>
 							<div class="col-md-6">
 								<p>
 									<button id="add_column_btn" class="btn btn-info btn-block"><span class="glyphicon glyphicon-plus"></span></button>
@@ -36,7 +45,7 @@
 					</div>
 					<div class="col-md-4">
 						<fieldset>
-							<legend>Constraints</legend>
+							<legend><translate trans="constraints">Constraints</translate></legend>
 							<div class="col-md-6">
 								<p>
 									<button id="add_line_btn" class="btn btn-info btn-block"><span class="glyphicon glyphicon-plus"></button>
@@ -51,8 +60,12 @@
 					</div>
 					<div class="col-md-4">
 						<div class="row">
-							<div class="col-md-6"><p><button id="calculate_simplex_btn" class="btn btn-info btn-block">Solve LPP</button></p></div>
-							<div class="col-md-6"><p><button id="clear_solutions_btn" class="btn btn-info btn-block">Clear Solutions</button></p></div>
+							<div class="col-md-6"><p><button id="calculate_simplex_btn" class="btn btn-info btn-block">
+								<translate trans="solve_lpp">Solve LPP</translate>
+							</button></p></div>
+							<div class="col-md-6"><p><button id="clear_solutions_btn" class="btn btn-info btn-block">
+								<translate trans="clear_solutions">Clear Solutions</translate>
+							</button></p></div>
 						</div>
 						<div id="solve_msg" class="row"></div>
 					</div>
@@ -60,18 +73,18 @@
 				<div class="row">
 					<div class="row">
 						<div class="page-header">
-							<h3>Linear Programming Problem</h3>
+							<h3><translate trans="lpp">Linear Programming Problem</translate></h3>
 						</div>
 					</div>
 					<div class="row panel panel-info">
 						<div class="panel-heading toggler" data-target="#function">
-							<h4 class="panel-title">Function</h4>
+							<h4 class="panel-title"><translate trans="function">Function</translate></h4>
 						</div>
 						<div id="function" class="panel-body toggler-target">
 							<div class="col-md-2">
 								<table class="table">
 									<tr>
-										<th>Type</th>
+										<th><translate trans="type">Type</translate></th>
 									</tr>
 									<tr>
 										<td>
@@ -95,7 +108,7 @@
 					</div>
 					<div class="row panel panel-info">
 						<div class="panel-heading toggler" data-target="#constraints_body">
-							<h4 class="panel-title">Constraints</h4>
+							<h4 class="panel-title"><translate trans="constraints">Constraints</translate></h4>
 						</div>
 						<div id="constraints_body" class="panel-body toggler-target">
 							<div class="col-md-12">
@@ -113,7 +126,7 @@
 					<div class="row">
 						<div id="solution_head" class="">
 							<div class="page-header">
-								<h3>Solution(s)</h3>
+								<h3><translate trans="solutions">Solution(s)</translate></h3>
 							</div>
 						</div>
 					</div>
@@ -124,7 +137,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-2">
-								<p><button id="next_solution" class="btn btn-info">Next Solution</button></p>
+								<p><button id="next_solution" class="btn btn-info"><translate trans="next_solution">Next Solution</translate></button></p>
 							</div>
 							<div id="next_solution_msg" class="col-md-10"></div>
 						</div>
@@ -134,7 +147,7 @@
 					<div class="row">
 						<div id="step_head" class="">
 							<div class="page-header">
-								<h3>Step by Step</h3>
+								<h3><translate trans="step_by_step">Step by Step</translate></h3>
 							</div>
 						</div>
 					</div>
@@ -143,7 +156,7 @@
 						</div>
 						<div class="row">
 							<div class="col-md-2">
-								<p><button id="next_step" class="btn btn-info">Next Step</button></p>
+								<p><button id="next_step" class="btn btn-info"><translate trans="next_step">Next Step</translate></button></p>
 							</div>
 							<div id="next_step_msg" class="col-md-10"></div>
 						</div>
@@ -157,6 +170,7 @@
 		<script src="simplex.js"></script>
 		<script src="graphic-manager.js"></script>
 		<script src="data-manager.js"></script>
+		<script src="languages.js"></script>
 		<script src="events.js"></script>
 	</body>
 </html>

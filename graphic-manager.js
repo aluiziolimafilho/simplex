@@ -28,7 +28,7 @@ function GraphicManager(){
 			element += '<th>x'+(i+1)+'</th>';
 		}
 
-		element += 	'<th>sign</th>'+
+		element += 	'<th><translate trans="sign">sign</translate></th>'+
 					'<th>b</th>'+
 					'</tr>';
 
@@ -146,7 +146,7 @@ function GraphicManager(){
 		var $step = $("#steps");
 		var element = '<div class="row">';
 		element += '<div class="alert alert-success">';
-		element += '<strong>End of first fase.<strong>';
+		element += '<strong><translate trans="end_first_fase">End of first fase.</trasnlate><strong>';
 		element += '</div>';
 		element += '</div>';
 		$step.append(element);
@@ -155,7 +155,7 @@ function GraphicManager(){
 	this.putAlertMessage = function(id,msg,type){
 		var element = '<div class="alert alert-'+type+'">';
 		element += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-		element += '<strong>'+msg+'<strong>';
+		element += '<strong><translate trans="'+msg+'">'+msg+'</translate><strong>';
 		element += '</div>';
 		var $id = $("#"+id);
 		$id.empty();
@@ -170,16 +170,16 @@ function GraphicManager(){
 	this.printTypeOfSolution = function(id,type){
 		switch(type){
 			case "single":
-				that.putAlertMessage(id,"This is a single solution.","info");
+				that.putAlertMessage(id,"single_solution","info");
 				break;
 			case "infinite_solutions":
-				that.putAlertMessage(id,"There are infinite solutions.","info");
+				that.putAlertMessage(id,"infinite_solutions","info");
 				break;
 			case "multiple_solutions":
-				that.putAlertMessage(id,"There are multiple solutions.","info");
+				that.putAlertMessage(id,"multiple_solutions","info");
 				break;
 			case "unlimited":
-				that.putAlertMessage(id,"The solution is unlimited.","info");
+				that.putAlertMessage(id,"solution_unlimited","info");
 				break;
 			default:
 				break;

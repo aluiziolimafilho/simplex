@@ -106,12 +106,12 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 
 		var element = '<div class="panel panel-info">';
 		element += '<div id="'+name+'_block'+number+'" class="panel-heading" data-target="#'+name+number+'">';
-		element += '<h4 class="panel-title">'+name+' '+number+'</h4>';
+		element += '<h4 class="panel-title"><translate trans="'+name+'">'+name+'</translate> '+number+'</h4>';
 		element += '</div>';
 		element += '<div id="'+name+number+'" class="panel-body toggler-target">';
 		element += '<table class="table">';
 		element += '<thead><tr>';
-		element += '<th>base</th>';
+		element += '<th><translate trans="base">base</translate></th>';
 	
 		for(var i=1; i<size[1]; i++){
 			if(vIn != null && vIn+1 == i ){
@@ -135,7 +135,7 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 				else
 					element += '<td>x'+(variables[i-1]+1)+'</td>';
 			}
-			else element += '<td>costs</td>';
+			else element += '<td><translate trans="costs">costs</translate></td>';
 
 			for(var j=0; j<size[1]; j++){
 				var value = table.subset(math.index(i,j));
@@ -160,7 +160,7 @@ function DataManager(gm){  //recebe como parâmetro uma instância da classe Gra
 		var element = createSimplexTableHTML(simplex, "great_base", "");
 		$great_base.append(element);
 
-		$("#great_base_block"+number).click(function(){
+		$("#great_base_block").click(function(){
 			var target = $(this).attr("data-target");
 			$(target).fadeToggle();
 		});
