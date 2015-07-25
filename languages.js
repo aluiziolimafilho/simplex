@@ -40,10 +40,16 @@ var setTranslations = function(){
 	$("translate").each(function(){
 		var id = $(this).attr("trans");
 		var language = translations["language"];
-		var translation = translations[id];
-		var phrase = translation[language];
+
+		var phrase = id;
+
+		if( id in translations && language in translations[id] ){
+			var translation = translations[id];
+			phrase = translation[language];
+		}
 		
 		$(this).empty();
 		$(this).append(phrase);
+		
 	});
 };
