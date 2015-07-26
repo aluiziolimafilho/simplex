@@ -480,10 +480,8 @@ function SimplexTable(lpp){
 
 	this.isAllInfinite = function(){
 		var size = that.st.size();
-		console.log("All infinite.");
 		for(var i=0; i<size[1]-1; i++){
 			if($.inArray(i,that.variablesInBase) == -1){
-				console.log(i);
 				if(!that.isInfinite(i)) return false;
 			}
 		}
