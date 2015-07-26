@@ -91,6 +91,9 @@
 		$('#great_base').empty();
 		$('#solutions').empty();
 		$('#steps').empty();
+		simplex = null;
+		firstFase = true;
+		
 		gm.removeAlertMessage("type_solution_msg");
 		gm.removeAlertMessage("solve_msg");
 		gm.removeAlertMessage("next_solution_msg");
@@ -100,6 +103,7 @@
 	});
 
 	$("#next_solution").on('click',function(){
+		gm.removeAlertMessage("next_solution_msg");
 		if(simplex == null){
 			gm.putAlertMessage("next_solution_msg","first_press_button_solve_lpp","warning");
 			setTranslations();
@@ -119,6 +123,7 @@
 	});
 
 	$("#next_step").on('click',function(){
+		gm.removeAlertMessage("next_step_msg");
 		if(simplex == null){
 			gm.putAlertMessage("next_step_msg","first_press_button_solve_lpp","warning");
 			$('#steps').empty();
