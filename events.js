@@ -2,11 +2,31 @@
 	var gm = new GraphicManager();
 	var dm = new DataManager(gm);
 	var firstLPP = new LPP();
+
+	//optimal solution single.
 	firstLPP.setFunction("min",[-1,-1]);
 	firstLPP.createConstraint([3,2],'>',6);
 	firstLPP.createConstraint([4,1],'<',16);
 	firstLPP.createConstraint([-2,3],'<',6);
 	firstLPP.createConstraint([1,4],'>',4);
+
+	//infinite solutions.
+	/*firstLPP.setFunction("min",[5,4,1]);
+	firstLPP.createConstraint([2,3,0],'>',1);
+	firstLPP.createConstraint([1,-4,-2],'>',3);*/
+
+	//unlimited solution.
+	/*firstLPP.setFunction("max",[1,2]);
+	firstLPP.createConstraint([4,1],'>',20);
+	firstLPP.createConstraint([1,2],'>',10);
+	firstLPP.createConstraint([1,0],'>',2);*/
+
+	//multiple solutions.
+	/*firstLPP.setFunction("max",[1,2]);
+	firstLPP.createConstraint([1,0],'<',3);
+	firstLPP.createConstraint([0,1],'<',4);
+	firstLPP.createConstraint([1,2],'<',9);*/
+
 	dm.putLPP(firstLPP);
 
 	var firstFase = true;
@@ -100,9 +120,14 @@
 
 	$("#next_step").on('click',function(){
 		if(simplex == null){
-			gm.putAlertMessage("next_step_msg","first_press_button_solve_lpp","warning");
+			//gm.putAlertMessage("next_step_msg","first_press_button_solve_lpp","warning");
 			$('#steps').empty();
 			firstFase = true;
+			var lpp = dm.getLPP();
+			dm.putLPP(lpp);
+			simplex = new Simplex(lpp);
+			var result = simplex.nextStepFirstFase();
+			dm.putStep(result, simplex.getStep());
 			setTranslations();
 			return;
 		}

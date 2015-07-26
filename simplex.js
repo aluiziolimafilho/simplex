@@ -306,7 +306,7 @@ function SimplexTable(lpp){
 		return getIn;
 	};
 
-	this.varialbeToOutBase = function(vIn){
+	this.variableToOutBase = function(vIn){
 		if(vIn == null) return null;
 
 		var size = that.st.size();
@@ -344,14 +344,14 @@ function SimplexTable(lpp){
 
 	this.hasMoreSolutions = function(){
 		var vIn = that.variableToInBase();
-		var vOut = that.varialbeToOutBase(vIn);
+		var vOut = that.variableToOutBase(vIn);
 		if( vIn == null || vOut == null ) return false;
 		else return true;
 	};
 
 	this.isImpossibleLPP = function(){
 		var vIn = that.variableToInBase();
-		var vOut = that.varialbeToOutBase(vIn);
+		var vOut = that.variableToOutBase(vIn);
 		if( (vIn == null || vOut == null) && that.hasVirtualVariableOnBase()) return true;
 		else return false;
 	};
@@ -381,7 +381,7 @@ function SimplexTable(lpp){
 
 	this.nextTable = function(){
 		var vIn = that.variableToInBase();
-		var vOut = that.varialbeToOutBase(vIn);
+		var vOut = that.variableToOutBase(vIn);
 		if( vIn == null || vOut == null ) return false;
 
 		for(var i=0; i<that.variablesInBase.length; i++){
@@ -471,8 +471,20 @@ function SimplexTable(lpp){
 
 		for(var i=0; i<that.variablesInBase.length; i++){
 			var yr = that.st.subset(math.index(i+1,vIn));
-			if(yr >= 0){
+			if(yr > 0){
 				return false;
+			}
+		}
+		return true;
+	};
+
+	this.isAllInfinite = function(){
+		var size = that.st.size();
+		console.log("All infinite.");
+		for(var i=0; i<size[1]-1; i++){
+			if($.inArray(i,that.variablesInBase) == -1){
+				console.log(i);
+				if(!that.isInfinite(i)) return false;
 			}
 		}
 		return true;
@@ -500,11 +512,11 @@ function SimplexTable(lpp){
 
 	this.getTypeOfSolution = function(){
 		if(that.isGreatTable()){
-			if(that.isSingleSolution())	return "single";
+			if(that.isAllInfinite()) return "infinite_solutions";
 
-			vIn = that.variableToInBase();
-			if(that.isInfinite(vIn)) return "infinite_solutions";
-			
+			if(that.isSingleSolution()) return "single";
+
+			vIn = that.variableToInBase();			
 			if(that.variableToOutBase(vIn) != null) return "multiple_solutions";
 
 			return "error";
