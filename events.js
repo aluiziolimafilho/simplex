@@ -120,14 +120,9 @@
 
 	$("#next_step").on('click',function(){
 		if(simplex == null){
-			//gm.putAlertMessage("next_step_msg","first_press_button_solve_lpp","warning");
+			gm.putAlertMessage("next_step_msg","first_press_button_solve_lpp","warning");
 			$('#steps').empty();
 			firstFase = true;
-			var lpp = dm.getLPP();
-			dm.putLPP(lpp);
-			simplex = new Simplex(lpp);
-			var result = simplex.nextStepFirstFase();
-			dm.putStep(result, simplex.getStep());
 			setTranslations();
 			return;
 		}
