@@ -144,10 +144,8 @@ function GraphicManager(){
 
 	this.endOfFirstFaseMessage = function(){
 		var $step = $("#steps");
-		var element = '<div class="row">';
-		element += '<div class="alert alert-success">';
+		var element = '<div class="alert alert-success">';
 		element += '<strong><translate trans="end_first_fase">End of first fase.</trasnlate><strong>';
-		element += '</div>';
 		element += '</div>';
 		$step.append(element);
 	};
