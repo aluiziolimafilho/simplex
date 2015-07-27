@@ -7,6 +7,7 @@ function GraphicManager(){
 	this.numberOfVariables = 0; // número total de varáveis do PPL.
 	this.numberOfConstraints = 0; // número total restrições do PPL.
 
+
 	var that = this;
 
 	var addVariableInFunctionHead = function(number){
@@ -15,7 +16,7 @@ function GraphicManager(){
 	};
 
 	var addFunctionVariables = function(number){
-		var element = '<td><input id="c'+number+'" value="1" type="number" class="form-control"/></td>';
+		var element = '<td><input id="c'+number+'" value="1" type="number" class="form-control min_width_in"/></td>';
 		$function_variables.append(element);
 	};
 
@@ -41,17 +42,17 @@ function GraphicManager(){
 		element += '<td>'+number+'</td>';
 
 		for(var i=0; i<that.numberOfVariables; i++){
-			element += '<td><input id="x'+number+'_'+(i+1)+'" value="1" type="number" class="form-control"/></td>';
+			element += '<td><input id="x'+number+'_'+(i+1)+'" value="1" type="number" class="form-control min_width_in"/></td>';
 		}
 
 		element += 	'<td>'+
-						'<select id="sign_'+number+'" class="form-control">'+
+						'<select id="sign_'+number+'" class="form-control min_width_in">'+
 							'<option value="<">&leq; &nbsp; &nbsp; &nbsp;</option>'+
 							'<option class="block" value=">">&geq; &nbsp;</option>'+
 							'<option value="=">= &nbsp;</option>'+
 						'</select>'+
 					'</td>'+
-					'<td><input id="b'+number+'" value="1" type="number" class="form-control"/></td>';
+					'<td><input id="b'+number+'" value="1" type="number" class="form-control min_width_in"/></td>';
 		element += '</tr>';
 
 		$constraints.append(element);
