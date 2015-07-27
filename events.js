@@ -35,6 +35,19 @@
 
 	setTranslations();
 
+	var clearAll = function(){
+		$('#great_base').empty();
+		$('#solutions').empty();
+		$('#steps').empty();
+		simplex = null;
+		firstFase = true;
+		
+		gm.removeAlertMessage("type_solution_msg");
+		gm.removeAlertMessage("solve_msg");
+		gm.removeAlertMessage("next_solution_msg");
+		gm.removeAlertMessage("next_step_msg");
+	};
+
 	$("#add_column_btn").on('click',function(e){
 		var lpp = dm.getLPP();
 		gm.addColumn();
@@ -64,12 +77,17 @@
 		setTranslations();
 	});
 	$("#calculate_simplex_btn").on('click',function(e){
+		clearAll();
+
+		if(gm.getNumberOfLines() == 0 || gm.getNumberOfColumns() == 0){
+			gm.putAlertMessage("solve_msg","size_error","danger");
+			setTranslations();
+			return;
+		}
+
 		var lpp = dm.getLPP();
 		dm.putLPP(lpp);
 		firstFase = true;
-		$('#great_base').empty();
-		$('#solutions').empty();
-		$('#steps').empty();
 
 		var sp = new Simplex(lpp);
 		if(sp.calculateSimplex2Fases()){
@@ -88,17 +106,7 @@
 	});
 
 	$("#clear_solutions_btn").on('click',function(){
-		$('#great_base').empty();
-		$('#solutions').empty();
-		$('#steps').empty();
-		simplex = null;
-		firstFase = true;
-		
-		gm.removeAlertMessage("type_solution_msg");
-		gm.removeAlertMessage("solve_msg");
-		gm.removeAlertMessage("next_solution_msg");
-		gm.removeAlertMessage("next_step_msg");
-
+		clearAll();
 		setTranslations();
 	});
 

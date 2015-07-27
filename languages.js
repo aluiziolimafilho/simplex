@@ -29,7 +29,8 @@ var translations =
 	"first_press_button_solve_lpp": { en_us: "First press the button 'solve lpp'.", pt_br: "Primeiro pressione o botão 'resolver ppl'."},
 	"there_isnt_more_solutions": { en_us: "There isn't more solutions.", pt_br: "Não existe mais soluções."},
 	"end_of_steps": { en_us: "End of steps.", pt_br: "Fim dos passos."},
-	"sign": { en_us: "Sign", pt_br: "Sinal"}
+	"sign": { en_us: "Sign", pt_br: "Sinal"},
+	"size_error": { en_us: "The number of variables or constraints must be greater than zero.", pt_br: "O número de variáveis ou restrições tem que ser maior que zero."}
 
 };
 
